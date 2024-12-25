@@ -26,7 +26,7 @@ export default function Day({
       ? "#2563eb"
       : effort
       ? "rgba(255, 255, 255, 1)"
-      : "white"; //"#0f172a";
+      : "rgba(255, 255, 255, 0.1)";
 
   return (
     <div

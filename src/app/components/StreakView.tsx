@@ -20,20 +20,20 @@ export default function StreakView() {
         </div>
         <div className="flex gap-8">
           <div className="flex flex-col items-end">
-            <p className="text-xs text-white/50">Longest streak</p>
+            <p className="text-xs text-white/50">Longest</p>
             <p className="font-bold text-blue-500">
               {longestStreak} {pluralize("day", longestStreak)}
             </p>
           </div>
           <div className="flex flex-col items-end">
-            <p className="text-xs text-white/50">Current streak</p>
+            <p className="text-xs text-white/50">Current</p>
             <p className="font-bold text-pink-500">
               {currentStreak} {pluralize("day", currentStreak)}
             </p>
           </div>
         </div>
       </header>
-      <main className="flex flex-col gap-8">
+      <main className="flex flex-col gap-8 pb-48">
         {years.map((y) => (
           <Year key={y} year={y} />
         ))}
