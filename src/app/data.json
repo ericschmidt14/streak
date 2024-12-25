@@ -1,0 +1,14 @@
+[
+  { "date": "2024-11-30", "distance": 7, "effort": 3 },
+  { "date": "2024-12-01", "distance": 7, "effort": 3 },
+  { "date": "2024-12-02", "distance": 3, "effort": 1 },
+  { "date": "2024-12-03", "distance": 12, "effort": 5 },
+  { "date": "2024-12-05", "distance": 7, "effort": 3 },
+  { "date": "2024-12-09", "distance": 3, "effort": 1 },
+  { "date": "2024-12-10", "distance": 12, "effort": 5 },
+  { "date": "2024-12-20", "distance": 7, "effort": 3 },
+  { "date": "2024-12-21", "distance": 7, "effort": 5 },
+  { "date": "2024-12-23", "distance": 7, "effort": 1 },
+  { "date": "2024-12-24", "distance": 7, "effort": 3 },
+  { "date": "2024-12-25", "distance": 7, "effort": 2 }
+]
