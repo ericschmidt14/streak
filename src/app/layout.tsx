@@ -52,6 +52,18 @@ export default function RootLayout({
         "#0045bd",
         "#003ba7",
       ],
+      cyan: [
+        "#e1feff",
+        "#cdf8ff",
+        "#9eeffc",
+        "#6ce5fa",
+        "#47ddf8",
+        "#32d8f7",
+        "#20d6f7",
+        "#06bddd",
+        "#00a9c6",
+        "#0092ae",
+      ],
     },
   });
 

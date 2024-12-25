@@ -57,6 +57,7 @@ export default function Month({
         return (
           <Day
             key={dayIndex}
+            date={date}
             effort={
               monthData.find((d) => new Date(d.date).getDate() === dayIndex + 1)
                 ?.effort

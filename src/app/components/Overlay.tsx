@@ -1,31 +1,38 @@
 "use client";
 import { Button, SegmentedControl } from "@mantine/core";
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
-import { IconCalendar, IconCirclePlus } from "@tabler/icons-react";
+import {
+  IconCalendar,
+  IconCirclePlus,
+  IconPencil,
+  IconTrash,
+} from "@tabler/icons-react";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
 
 export default function Overlay() {
-  const { addRun } = useStreakContext();
+  const { runs, selectedRun, addRun, removeRun } = useStreakContext();
   const [date, setDate] = useState<Date | null>(new Date());
   const [effort, setEffort] = useState<string>("1");
 
-  const handleAddRun = () => {
-    if (date) {
-      const newRun = {
-        date: dayjs(date).format("YYYY-MM-DD"),
-        distance: 0,
-        effort: parseInt(effort, 10),
-      };
-      addRun(newRun);
+  const runForSelectedDate = useMemo(() => {
+    if (!date) return null;
+    const formattedDate = dayjs(date).format("YYYY-MM-DD");
+    return runs.find((run) => run.date === formattedDate) || null;
+  }, [date, runs]);
+
+  useEffect(() => {
+    if (selectedRun) {
+      setDate(new Date(selectedRun.date));
+      setEffort(selectedRun.effort.toString());
     }
-  };
+  }, [selectedRun]);
 
   return (
     <DatesProvider settings={{ locale: "en" }}>
-      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 flex justify-center items-center gap-2 backdrop-blur-md bg-blue-900/10 shadow-md shadow-black/20">
+      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 flex justify-center items-center gap-2 backdrop-blur-md bg-violet-900/10 shadow-md shadow-black/20">
         <DatePickerInput
           value={date}
           onChange={setDate}
@@ -38,19 +45,40 @@ export default function Overlay() {
           onChange={setEffort}
           data={[
             { label: "Easy", value: "1" },
-            { label: "Moderate", value: "2" },
-            { label: "Medium", value: "3" },
-            { label: "Tough", value: "4" },
+            { label: "Moderate", value: "3" },
             { label: "Hard", value: "5" },
           ]}
           withItemsBorders={false}
         />
         <Button
-          onClick={handleAddRun}
-          rightSection={<IconCirclePlus size={16} />}
+          color="cyan"
+          variant="light"
+          onClick={() =>
+            addRun({
+              date: dayjs(date).format("YYYY-MM-DD"),
+              distance: 0,
+              effort: parseInt(effort, 10),
+            })
+          }
+          leftSection={
+            runForSelectedDate ? (
+              <IconPencil size={16} />
+            ) : (
+              <IconCirclePlus size={16} />
+            )
+          }
         >
-          Add Run
+          {runForSelectedDate ? "Update" : "Add"} Run
         </Button>
+        {runForSelectedDate && selectedRun && (
+          <Button
+            variant="transparent"
+            onClick={() => removeRun(selectedRun.date)}
+            leftSection={<IconTrash size={16} />}
+          >
+            Delete
+          </Button>
+        )}
       </div>
     </DatesProvider>
   );

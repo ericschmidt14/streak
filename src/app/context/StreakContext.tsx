@@ -6,7 +6,10 @@ import { getStreaks } from "../lib/utils";
 
 interface StreakContextValue extends StreakResult {
   runs: RunData[];
+  selectedRun: RunData | null;
   addRun: (newRun: RunData) => void;
+  removeRun: (date: string) => void;
+  selectRun: (run: RunData | null) => void;
 }
 
 const StreakContext = createContext<StreakContextValue | undefined>(undefined);
@@ -16,6 +19,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [runs, setRuns] = useState<RunData[]>(data);
   const [streaks, setStreaks] = useState<StreakResult>(() => getStreaks(data));
+  const [selectedRun, setSelectedRun] = useState<RunData | null>(null);
 
   const addRun = (newRun: RunData) => {
     setRuns((prevRuns) => {
@@ -31,6 +35,15 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  const removeRun = (date: string) => {
+    setRuns((prevRuns) => prevRuns.filter((run) => run.date !== date));
+    setSelectedRun(null); // Clear the selection after deleting
+  };
+
+  const selectRun = (run: RunData | null) => {
+    setSelectedRun(run);
+  };
+
   useEffect(() => {
     setStreaks(getStreaks(runs));
   }, [runs]);
@@ -40,6 +53,9 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         runs,
         addRun,
+        removeRun,
+        selectRun,
+        selectedRun,
         longestStreak: streaks.longestStreak,
         longestStreakDates: streaks.longestStreakDates,
         currentStreak: streaks.currentStreak,
