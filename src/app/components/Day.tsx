@@ -16,7 +16,7 @@ export default function Day({
   const { selectedRun, selectRun } = useStreakContext();
 
   const isSelected = selectedRun?.date === date;
-  const size = effort ? 2 + effort : 2;
+  const size = effort ? effort : 1;
   const bg =
     isInCurrentStreak && isInLongestStreak
       ? "linear-gradient(75deg, #ec4899 0%, #2563eb 100%)"
@@ -24,15 +24,13 @@ export default function Day({
       ? "#ec4899"
       : isInLongestStreak
       ? "#2563eb"
-      : isToday
-      ? "#be185d"
       : effort
       ? "rgba(255, 255, 255, 1)"
-      : "#0f172a";
+      : "white"; //"#0f172a";
 
   return (
     <div
-      className="w-8 h-8 flex items-center justify-center cursor-pointer transition-all duration-300 hover:opacity-80"
+      className="aspect-square max-w-8 max-h-8 flex items-center justify-center cursor-pointer transition-all duration-300 hover:opacity-80"
       onClick={() =>
         selectRun(
           effort
@@ -43,13 +41,15 @@ export default function Day({
     >
       <div
         className={`rounded-full ${
-          isToday ? "ring-2 ring-white shadow-xl shadow-white" : ""
+          isSelected ? "ring-2 ring-orange-500 shadow-xl shadow-orange-500" : ""
         } ${
-          isSelected ? "ring-2 ring-cyan-500 shadow-xl shadow-cyan-500" : ""
-        }`}
+          isToday && !isSelected
+            ? "ring-2 ring-white shadow-xl shadow-white"
+            : ""
+        } `}
         style={{
-          width: `${size * 4}px`,
-          height: `${size * 4}px`,
+          width: `${size * 5}px`,
+          height: `${size * 5}px`,
           background: bg,
         }}
       />

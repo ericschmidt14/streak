@@ -19,23 +19,23 @@ export default function Year({ year }: { year: number }) {
   return (
     <div>
       <h2 className="p-4 text-4xl font-bold tracking-tighter">{year}</h2>
-      <div
-        className="grid gap-2"
-        style={{ gridTemplateColumns: "repeat(32, minmax(0, 1fr))" }}
-      >
-        <div />
-        {Array.from({ length: 31 }).map((_, index) => (
-          <div
-            key={index}
-            className="w-8 h-8 flex items-center justify-center text-xs text-white/50"
-          >
-            {index + 1}
-          </div>
+      <div className="grid grid-cols-12 lg:grid-cols-1">
+        <div className="grid gap-2 grid-cols-1 grid-rows-[repeat(32,1fr)] lg:grid-cols-[repeat(32,1fr)] lg:grid-rows-1">
+          <div className="aspect-square max-w-8 max-h-8" />
+          {Array.from({ length: 31 }).map((_, index) => (
+            <div
+              key={index}
+              className="aspect-square max-w-8 max-h-8 flex items-center justify-center text-xs text-white/50"
+            >
+              {index + 1}
+            </div>
+          ))}
+        </div>
+
+        {months.map((m, index) => (
+          <Month key={index} name={m} index={index} year={year} />
         ))}
       </div>
-      {months.map((m, index) => (
-        <Month key={index} name={m} index={index} year={year} />
-      ))}
     </div>
   );
 }

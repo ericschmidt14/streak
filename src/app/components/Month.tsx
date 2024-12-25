@@ -33,11 +33,8 @@ export default function Month({
   });
 
   return (
-    <div
-      className="grid gap-2"
-      style={{ gridTemplateColumns: "repeat(32, minmax(0, 1fr))" }}
-    >
-      <div className="w-8 h-8 flex items-center justify-center text-xs text-white/50">
+    <div className="grid gap-2 grid-cols-1 grid-rows-[repeat(32,1fr)] lg:grid-cols-[repeat(32,1fr)] lg:grid-rows-1">
+      <div className="aspect-square max-w-8 max-h-8 flex items-center justify-center text-xs text-white/50">
         {name.substring(0, 1)}
       </div>
       {Array.from({ length: days[index] }).map((_, dayIndex) => {

@@ -8,7 +8,7 @@ export default function StreakView() {
   const years = [2024, 2025];
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-2">
       <header className="flex justify-between items-center p-4 border-b border-b-white/10">
         <div className="flex gap-8">
           <div className="flex flex-col">

@@ -32,7 +32,7 @@ export default function Overlay() {
 
   return (
     <DatesProvider settings={{ locale: "en" }}>
-      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 flex justify-center items-center gap-2 backdrop-blur-md bg-violet-900/10 shadow-md shadow-black/20">
+      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 flex justify-center items-center gap-2 backdrop-blur-md bg-black/20 border-t border-t-white/10">
         <DatePickerInput
           value={date}
           onChange={setDate}
@@ -51,7 +51,7 @@ export default function Overlay() {
           withItemsBorders={false}
         />
         <Button
-          color="cyan"
+          color="orange"
           variant="light"
           onClick={() =>
             addRun({
