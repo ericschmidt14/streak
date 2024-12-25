@@ -32,7 +32,7 @@ export default function Overlay() {
 
   return (
     <DatesProvider settings={{ locale: "en" }}>
-      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 flex justify-center items-center gap-2 backdrop-blur-md bg-black/20 border-t border-t-white/10">
+      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 backdrop-blur-md bg-black/20 border-t border-t-white/10">
         <DatePickerInput
           value={date}
           onChange={setDate}
@@ -50,35 +50,37 @@ export default function Overlay() {
           ]}
           withItemsBorders={false}
         />
-        <Button
-          color="orange"
-          variant="light"
-          onClick={() =>
-            addRun({
-              date: dayjs(date).format("YYYY-MM-DD"),
-              distance: 0,
-              effort: parseInt(effort, 10),
-            })
-          }
-          leftSection={
-            runForSelectedDate ? (
-              <IconPencil size={16} />
-            ) : (
-              <IconCirclePlus size={16} />
-            )
-          }
-        >
-          {runForSelectedDate ? "Update" : "Add"} Run
-        </Button>
-        {runForSelectedDate && selectedRun && (
+        <div className="flex gap-2">
           <Button
-            variant="transparent"
-            onClick={() => removeRun(selectedRun.date)}
-            leftSection={<IconTrash size={16} />}
+            color="orange"
+            variant="light"
+            onClick={() =>
+              addRun({
+                date: dayjs(date).format("YYYY-MM-DD"),
+                distance: 0,
+                effort: parseInt(effort, 10),
+              })
+            }
+            leftSection={
+              runForSelectedDate ? (
+                <IconPencil size={16} />
+              ) : (
+                <IconCirclePlus size={16} />
+              )
+            }
           >
-            Delete
+            {runForSelectedDate ? "Update" : "Add"} Run
           </Button>
-        )}
+          {runForSelectedDate && selectedRun && (
+            <Button
+              variant="transparent"
+              onClick={() => removeRun(selectedRun.date)}
+              leftSection={<IconTrash size={16} />}
+            >
+              Delete
+            </Button>
+          )}
+        </div>
       </div>
     </DatesProvider>
   );

@@ -19,7 +19,7 @@ export default function Year({ year }: { year: number }) {
   return (
     <div>
       <h2 className="p-4 text-4xl font-bold tracking-tighter">{year}</h2>
-      <div className="grid grid-cols-12 lg:grid-cols-1">
+      <div className="grid grid-cols-[repeat(13,1fr)] lg:grid-cols-1">
         <div className="grid gap-2 grid-cols-1 grid-rows-[repeat(32,1fr)] lg:grid-cols-[repeat(32,1fr)] lg:grid-rows-1">
           <div className="aspect-square max-w-8 max-h-8" />
           {Array.from({ length: 31 }).map((_, index) => (
@@ -31,7 +31,6 @@ export default function Year({ year }: { year: number }) {
             </div>
           ))}
         </div>
-
         {months.map((m, index) => (
           <Month key={index} name={m} index={index} year={year} />
         ))}
