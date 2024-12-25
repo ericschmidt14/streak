@@ -36,7 +36,7 @@ export default function Overlay() {
         <DatePickerInput
           value={date}
           onChange={setDate}
-          valueFormat="DD MMM YYYY"
+          valueFormat="DD MMMM YYYY"
           defaultValue={new Date()}
           leftSection={<IconCalendar size={16} />}
         />
@@ -68,6 +68,7 @@ export default function Overlay() {
                 <IconCirclePlus size={16} />
               )
             }
+            fullWidth
           >
             {runForSelectedDate ? "Update" : "Add"} Run
           </Button>
@@ -76,6 +77,7 @@ export default function Overlay() {
               variant="transparent"
               onClick={() => removeRun(selectedRun.date)}
               leftSection={<IconTrash size={16} />}
+              fullWidth
             >
               Delete
             </Button>
