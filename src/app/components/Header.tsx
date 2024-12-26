@@ -7,8 +7,8 @@ export default function Header() {
   const { longestStreak, currentStreak } = useStreakContext();
 
   return (
-    <header className="w-full flex flex-col">
-      <div className="flex justify-between items-center p-4">
+    <header className="sticky -top-20 z-50 w-full flex flex-col backdrop-blur-md bg-black/20">
+      <div className="flex justify-between items-center px-8 py-4">
         <h1 className="font-medium text-lg leading-tight">
           Hi Eric, <br /> It&apos;s a good day to go for a run.
         </h1>
@@ -20,7 +20,7 @@ export default function Header() {
           className="rounded-full"
         />
       </div>
-      <div className="flex justify-between items-center p-4 border-t border-t-white/10">
+      <div className="flex justify-between items-center px-8 py-4 border-b border-b-white/10">
         <div className="flex gap-8">
           <div className="flex flex-col">
             <p className="text-xs text-white/50">Today</p>
