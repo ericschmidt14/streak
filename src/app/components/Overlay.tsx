@@ -47,6 +47,13 @@ export default function Overlay() {
           valueFormat="DD MMMM YYYY"
           defaultValue={new Date()}
           leftSection={<IconCalendar size={16} />}
+          styles={{
+            input: {
+              background: "rgba(0,0,0,0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+            },
+          }}
+          readOnly
         />
         <SegmentedControl
           value={effort}
@@ -57,6 +64,20 @@ export default function Overlay() {
             { label: "Hard", value: "5" },
           ]}
           withItemsBorders={false}
+          styles={{
+            root: {
+              background: "rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              padding: "2px",
+            },
+            label: {
+              padding: "4.5px 6px",
+            },
+            indicator: {
+              background: "var(--mantine-color-orange-light)",
+              borderRadius: "2px",
+            },
+          }}
         />
         <div className="flex items-center gap-2">
           <Button
