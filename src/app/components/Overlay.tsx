@@ -1,11 +1,12 @@
 "use client";
-import { Button, SegmentedControl } from "@mantine/core";
+import { ActionIcon, Button, SegmentedControl } from "@mantine/core";
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
 import {
   IconCalendar,
   IconCirclePlus,
   IconPencil,
   IconTrash,
+  IconX,
 } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
@@ -13,7 +14,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
 
 export default function Overlay() {
-  const { runs, selectedRun, addRun, removeRun } = useStreakContext();
+  const { runs, selectedRun, selectRun, addRun, removeRun } =
+    useStreakContext();
   const [date, setDate] = useState<Date | null>(new Date());
   const [effort, setEffort] = useState<string>("1");
 
@@ -32,7 +34,13 @@ export default function Overlay() {
 
   return (
     <DatesProvider settings={{ locale: "en" }}>
-      <div className="fixed bottom-0 left-0 z-50 w-screen p-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 backdrop-blur-md bg-black/20 border-t border-t-white/10">
+      <div
+        className="fixed bottom-0 left-0 z-50 w-screen p-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 backdrop-blur-md bg-black/20 border-t border-t-white/10"
+        style={{
+          transform: selectedRun ? "translateY(0)" : "translateY(200px)",
+          transition: "300ms all ease-in-out",
+        }}
+      >
         <DatePickerInput
           value={date}
           onChange={setDate}
@@ -50,7 +58,7 @@ export default function Overlay() {
           ]}
           withItemsBorders={false}
         />
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <Button
             color="orange"
             variant="light"
@@ -82,6 +90,13 @@ export default function Overlay() {
               Delete
             </Button>
           )}
+          <ActionIcon
+            variant="transparent"
+            color="white"
+            onClick={() => selectRun(null)}
+          >
+            <IconX size={16} />
+          </ActionIcon>
         </div>
       </div>
     </DatesProvider>
