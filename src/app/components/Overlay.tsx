@@ -62,13 +62,14 @@ export default function Overlay() {
           <Button
             color="orange"
             variant="light"
-            onClick={() =>
+            onClick={() => {
               addRun({
                 date: dayjs(date).format("YYYY-MM-DD"),
                 distance: 0,
                 effort: parseInt(effort, 10),
-              })
-            }
+              });
+              selectRun(null);
+            }}
             leftSection={
               runForSelectedDate ? (
                 <IconPencil size={16} />
