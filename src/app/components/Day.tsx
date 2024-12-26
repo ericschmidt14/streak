@@ -31,13 +31,7 @@ export default function Day({
   return (
     <div
       className="aspect-square max-w-8 max-h-8 flex items-center justify-center cursor-pointer transition-all duration-300 hover:opacity-80"
-      onClick={() =>
-        selectRun(
-          effort
-            ? { date, effort, distance: 0 }
-            : { date, effort: 1, distance: 0 }
-        )
-      }
+      onClick={() => selectRun(effort ? { date, effort } : { date, effort: 1 })}
     >
       <div
         className={`rounded-full ${

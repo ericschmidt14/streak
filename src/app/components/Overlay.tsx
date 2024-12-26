@@ -65,7 +65,6 @@ export default function Overlay() {
             onClick={() => {
               addRun({
                 date: dayjs(date).format("YYYY-MM-DD"),
-                distance: 0,
                 effort: parseInt(effort, 10),
               });
               selectRun(null);

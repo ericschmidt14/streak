@@ -1,6 +1,5 @@
 export interface RunData {
   date: string;
-  distance: number;
   effort: number;
 }
 
