@@ -19,11 +19,11 @@ export default function Day({
   const size = effort ? effort : 1;
   const bg =
     isInCurrentStreak && isInLongestStreak
-      ? "linear-gradient(75deg, #ec4899 0%, #2563eb 100%)"
+      ? "linear-gradient(75deg, var(--red) 0%, var(--blue) 100%)"
       : isInCurrentStreak
-      ? "#ec4899"
+      ? "var(--red)"
       : isInLongestStreak
-      ? "#2563eb"
+      ? "var(--blue)"
       : effort
       ? "rgba(255, 255, 255, 1)"
       : "rgba(255, 255, 255, 0.1)";

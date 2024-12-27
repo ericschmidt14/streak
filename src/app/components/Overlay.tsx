@@ -12,6 +12,12 @@ import dayjs from "dayjs";
 import "dayjs/locale/en";
 import { useEffect, useMemo, useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
+import {
+  backdropBlur,
+  borderTop,
+  defaultPadding,
+  defaultShadow,
+} from "../lib/styles";
 
 export default function Overlay() {
   const { runs, selectedRun, selectRun, addRun, removeRun } =
@@ -35,7 +41,7 @@ export default function Overlay() {
   return (
     <DatesProvider settings={{ locale: "en" }}>
       <div
-        className="fixed bottom-0 left-0 z-50 w-screen p-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 backdrop-blur-md bg-black/20 border-t border-t-white/10"
+        className={`fixed bottom-0 left-0 z-50 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop}`}
         style={{
           transform: selectedRun ? "translateY(0)" : "translateY(200px)",
           transition: "300ms all ease-in-out",
@@ -68,10 +74,10 @@ export default function Overlay() {
             root: {
               background: "rgba(0, 0, 0, 0.1)",
               border: "1px solid rgba(255, 255, 255, 0.1)",
-              padding: "2px",
+              padding: "2.5px",
             },
             label: {
-              padding: "4.5px 6px",
+              padding: "4px 6px",
             },
             indicator: {
               background: "var(--mantine-color-orange-light)",
