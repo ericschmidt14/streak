@@ -16,7 +16,7 @@ export default function Day({
   const { selectedRun, selectRun } = useStreakContext();
 
   const isSelected = selectedRun?.date === date;
-  const size = effort ? effort : 1;
+  const size = `${(effort ? effort + 1 : 1) * 4}px`;
   const bg =
     isInCurrentStreak && isInLongestStreak
       ? "linear-gradient(75deg, var(--red) 0%, var(--blue) 100%)"
@@ -42,8 +42,8 @@ export default function Day({
             : ""
         } `}
         style={{
-          width: `${size * 5}px`,
-          height: `${size * 5}px`,
+          width: size,
+          height: size,
           background: bg,
         }}
       />
