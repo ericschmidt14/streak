@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Streak",
-  description: "",
+  description:
+    "streak noun [C] (SERIES) – something that happens or is done over a period of time without a break.",
 };
 
 export default function RootLayout({
