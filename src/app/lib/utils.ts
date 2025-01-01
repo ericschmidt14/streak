@@ -2,6 +2,15 @@ import dayjs from "dayjs";
 import { RunData, StreakResult } from "./interfaces";
 
 export function getStreaks(data: RunData[]): StreakResult {
+  if (data.length === 0) {
+    return {
+      longestStreak: 0,
+      currentStreak: 0,
+      longestStreakDates: [],
+      currentStreakDates: [],
+    };
+  }
+
   const sortedDates = data
     .map((entry) => dayjs(entry.date))
     .sort((a, b) => a.diff(b));

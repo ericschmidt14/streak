@@ -1,14 +1,19 @@
+import { createClient } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import data from "../data.json";
 import { RunData, StreakResult } from "../lib/interfaces";
 import { getStreaks } from "../lib/utils";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 interface StreakContextValue extends StreakResult {
   runs: RunData[];
   selectedRun: RunData | null;
-  addRun: (newRun: RunData) => void;
-  removeRun: (date: string) => void;
+  addRun: (newRun: RunData) => Promise<void>;
+  removeRun: (date: string) => Promise<void>;
   selectRun: (run: RunData | null) => void;
 }
 
@@ -17,11 +22,55 @@ const StreakContext = createContext<StreakContextValue | undefined>(undefined);
 export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [runs, setRuns] = useState<RunData[]>(data);
-  const [streaks, setStreaks] = useState<StreakResult>(() => getStreaks(data));
+  const [runs, setRuns] = useState<RunData[]>([]);
+  const [streaks, setStreaks] = useState<StreakResult>({
+    longestStreak: 0,
+    longestStreakDates: [],
+    currentStreak: 0,
+    currentStreakDates: [],
+  });
   const [selectedRun, setSelectedRun] = useState<RunData | null>(null);
 
-  const addRun = (newRun: RunData) => {
+  useEffect(() => {
+    const fetchRuns = async () => {
+      const { data, error } = await supabase.from("Streak").select("*");
+
+      if (error) {
+        console.error("Error fetching runs:", error.message);
+      } else if (data) {
+        setRuns(data.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))));
+      }
+    };
+
+    fetchRuns();
+  }, []);
+
+  useEffect(() => {
+    setStreaks(getStreaks(runs));
+  }, [runs]);
+
+  const addRun = async (newRun: RunData) => {
+    const existingRun = runs.find((run) => run.date === newRun.date);
+
+    if (existingRun) {
+      const { error } = await supabase
+        .from("Streak")
+        .update(newRun)
+        .eq("date", newRun.date);
+
+      if (error) {
+        console.error("Error updating run:", error.message);
+        return;
+      }
+    } else {
+      const { error } = await supabase.from("Streak").insert([newRun]);
+
+      if (error) {
+        console.error("Error adding new run:", error.message);
+        return;
+      }
+    }
+
     setRuns((prevRuns) => {
       const updatedRuns = prevRuns.map((run) =>
         run.date === newRun.date ? { ...run, ...newRun } : run
@@ -35,18 +84,21 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const removeRun = (date: string) => {
+  const removeRun = async (date: string) => {
+    const { error } = await supabase.from("Streak").delete().eq("date", date);
+
+    if (error) {
+      console.error("Error removing run:", error.message);
+      return;
+    }
+
     setRuns((prevRuns) => prevRuns.filter((run) => run.date !== date));
-    setSelectedRun(null); // Clear the selection after deleting
+    setSelectedRun(null);
   };
 
   const selectRun = (run: RunData | null) => {
     setSelectedRun(run);
   };
-
-  useEffect(() => {
-    setStreaks(getStreaks(runs));
-  }, [runs]);
 
   return (
     <StreakContext.Provider

@@ -13,6 +13,7 @@
     "@mantine/dates": "^7.15.2",
     "@mantine/form": "^7.15.2",
     "@mantine/hooks": "^7.15.2",
+    "@supabase/supabase-js": "^2.47.10",
     "@tabler/icons-react": "^3.5.0",
     "dayjs": "^1.11.13",
     "next": "15.1.2",

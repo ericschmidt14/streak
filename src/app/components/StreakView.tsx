@@ -8,7 +8,7 @@ export default function StreakView() {
     <main
       className={`w-full flex flex-col gap-8 ${defaultPadding} pb-48 md:pb-24`}
     >
-      {years.map((y) => (
+      {years.reverse().map((y) => (
         <Year key={y} year={y} />
       ))}
     </main>
