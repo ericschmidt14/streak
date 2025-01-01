@@ -2,7 +2,7 @@ import { defaultPadding } from "../lib/styles";
 import Year from "./Year";
 
 export default function StreakView() {
-  const years = [2024, 2025];
+  const years = [2025];
 
   return (
     <main
