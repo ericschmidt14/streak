@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import { RunData, StreakResult } from "./interfaces";
 
+export function hasRunToday(data: RunData[]): boolean {
+  const today = dayjs().format("YYYY-MM-DD");
+  return data.some((run) => run.date === today);
+}
+
 export function getStreaks(data: RunData[]): StreakResult {
   if (data.length === 0) {
     return {

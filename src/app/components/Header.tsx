@@ -12,10 +12,11 @@ import {
   defaultPadding,
   defaultShadow,
 } from "../lib/styles";
+import { hasRunToday } from "../lib/utils";
 import Settings from "./Settings";
 
 export default function Header() {
-  const { user, longestStreak, currentStreak } = useStreakContext();
+  const { runs, user, longestStreak, currentStreak } = useStreakContext();
   const [open, setOpen] = useState(false);
 
   const name = user?.user_metadata.display_name;
@@ -39,6 +40,14 @@ export default function Header() {
     }
   };
 
+  const getMessage = () => {
+    if (hasRunToday(runs)) {
+      return "Job done. See you tomorrow!";
+    } else {
+      return "It's a good day to go for a run.";
+    }
+  };
+
   return (
     <>
       <header
@@ -46,7 +55,7 @@ export default function Header() {
       >
         <div className={`flex justify-between items-center ${defaultPadding}`}>
           <h1 className="font-medium text-lg leading-tight">
-            {getGreeting()} {name}. <br /> It&apos;s a good day to go for a run.
+            {getGreeting()} {name}. <br /> {getMessage()}
           </h1>
           <ActionIcon
             size="xl"
