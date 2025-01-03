@@ -1,6 +1,6 @@
 "use client";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { IconExclamationCircle } from "@tabler/icons-react";
+import { IconExclamationCircle, IconLock, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
@@ -29,7 +29,7 @@ export default function SignIn() {
   return (
     <div className="relative w-full h-screen flex justify-center items-center">
       <form
-        className={`relative z-50 w-[320px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
+        className={`relative z-50 w-[360px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
         onSubmit={(e) => {
           e.preventDefault();
           formAction(email, password);
@@ -44,24 +44,28 @@ export default function SignIn() {
         />
         <div className="flex flex-col gap-2">
           <TextInput
+            size="lg"
             type="email"
-            placeholder="Email"
+            placeholder="name@company.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             styles={{
               input: inputStyles,
             }}
+            leftSection={<IconUser size={20} />}
           />
           <PasswordInput
-            type="password"
-            placeholder="Password"
+            size="lg"
+            placeholder="******"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             styles={{
               input: inputStyles,
             }}
+            leftSection={<IconLock size={20} />}
           />
           <Button
+            size="lg"
             type="submit"
             color={hasAccount ? "red" : "blue"}
             fullWidth
