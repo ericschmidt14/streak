@@ -19,6 +19,7 @@ import {
   borderTop,
   defaultPadding,
   defaultShadow,
+  inputStyles,
 } from "../lib/styles";
 
 export default function Overlay() {
@@ -56,10 +57,7 @@ export default function Overlay() {
           defaultValue={new Date()}
           rightSection={<IconCalendar size={16} />}
           styles={{
-            input: {
-              background: "rgba(0,0,0,0.1)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-            },
+            input: inputStyles,
           }}
           readOnly
         />

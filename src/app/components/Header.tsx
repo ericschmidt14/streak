@@ -10,7 +10,7 @@ import {
 } from "../lib/styles";
 
 export default function Header() {
-  const { longestStreak, currentStreak } = useStreakContext();
+  const { longestStreak, currentStreak, signOut } = useStreakContext();
 
   const getGreeting = () => {
     const currentHour = new Date().getHours();
@@ -45,6 +45,7 @@ export default function Header() {
           width={48}
           height={48}
           className="rounded-full"
+          onClick={() => signOut()}
         />
       </div>
       <div className={`flex justify-between items-center ${defaultPadding}`}>

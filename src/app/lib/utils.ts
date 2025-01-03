@@ -1,5 +1,11 @@
+import clsx, { ClassValue } from "clsx";
 import dayjs from "dayjs";
+import { twMerge } from "tailwind-merge";
 import { RunData, StreakResult } from "./interfaces";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export function getStreaks(data: RunData[]): StreakResult {
   if (data.length === 0) {
@@ -86,4 +92,8 @@ export function getStreaks(data: RunData[]): StreakResult {
 
 export function isLeapYear(year: number): boolean {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+export function isValidEmail(email: string) {
+  return /\S+@\S+\.\S+/.test(email);
 }

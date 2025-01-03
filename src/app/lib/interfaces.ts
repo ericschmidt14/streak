@@ -1,6 +1,7 @@
 export interface RunData {
   date: string;
   effort: number;
+  user_id?: string;
 }
 
 export interface StreakResult {

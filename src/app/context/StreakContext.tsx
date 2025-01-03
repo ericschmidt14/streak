@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { AuthError, createClient, User } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { RunData, StreakResult } from "../lib/interfaces";
@@ -15,6 +15,12 @@ interface StreakContextValue extends StreakResult {
   addRun: (newRun: RunData) => Promise<void>;
   removeRun: (date: string) => Promise<void>;
   selectRun: (run: RunData | null) => void;
+  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
+  user: User | null;
+  error: AuthError | null;
+  loading: boolean;
 }
 
 const StreakContext = createContext<StreakContextValue | undefined>(undefined);
@@ -22,6 +28,9 @@ const StreakContext = createContext<StreakContextValue | undefined>(undefined);
 export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<AuthError | null>(null);
+  const [loading, setLoading] = useState(true);
   const [runs, setRuns] = useState<RunData[]>([]);
   const [streaks, setStreaks] = useState<StreakResult>({
     longestStreak: 0,
@@ -32,38 +41,111 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedRun, setSelectedRun] = useState<RunData | null>(null);
 
   useEffect(() => {
-    const fetchRuns = async () => {
-      const { data, error } = await supabase.from("Streak").select("*");
+    const fetchUser = async () => {
+      setLoading(true);
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        setUser(session.user);
+      } else {
+        setUser(null);
+      }
+
+      if (error) {
+        console.error("Error fetching session:", error.message);
+      }
+      setLoading(false);
+    };
+
+    fetchUser();
+
+    const { data: subscription } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session) {
+          setUser(session.user);
+        } else {
+          setUser(null);
+        }
+      }
+    );
+
+    return () => {
+      subscription.subscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    fetchRuns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    setStreaks(getStreaks(runs));
+  }, [runs]);
+
+  const signUp = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    setUser(data.user);
+    setError(error);
+  };
+
+  const signIn = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    setUser(data.user);
+    setError(error);
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    setError(error);
+  };
+
+  const fetchRuns = async () => {
+    if (user) {
+      const { data, error } = await supabase
+        .from("Streak")
+        .select("*")
+        .eq("user_id", user.id);
 
       if (error) {
         console.error("Error fetching runs:", error.message);
       } else if (data) {
         setRuns(data.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))));
       }
-    };
-
-    fetchRuns();
-  }, []);
-
-  useEffect(() => {
-    setStreaks(getStreaks(runs));
-  }, [runs]);
+    }
+  };
 
   const addRun = async (newRun: RunData) => {
+    if (!user) {
+      console.error("Cannot add run: User is not authenticated.");
+      return;
+    }
+
+    const runWithUserId = { ...newRun, user_id: user.id };
     const existingRun = runs.find((run) => run.date === newRun.date);
 
     if (existingRun) {
       const { error } = await supabase
         .from("Streak")
-        .update(newRun)
-        .eq("date", newRun.date);
+        .update(runWithUserId)
+        .eq("date", newRun.date)
+        .eq("user_id", user.id);
 
       if (error) {
         console.error("Error updating run:", error.message);
         return;
       }
     } else {
-      const { error } = await supabase.from("Streak").insert([newRun]);
+      const { error } = await supabase.from("Streak").insert([runWithUserId]);
 
       if (error) {
         console.error("Error adding new run:", error.message);
@@ -112,6 +194,12 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
         longestStreakDates: streaks.longestStreakDates,
         currentStreak: streaks.currentStreak,
         currentStreakDates: streaks.currentStreakDates,
+        signUp,
+        signIn,
+        signOut,
+        user,
+        error,
+        loading,
       }}
     >
       {children}
