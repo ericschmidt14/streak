@@ -51,18 +51,20 @@ export default function Overlay() {
         }}
       >
         <DatePickerInput
+          size="lg"
           value={date}
           onChange={setDate}
           valueFormat="DD MMMM YYYY"
           defaultValue={new Date()}
-          rightSection={<IconCalendar size={16} />}
+          rightSection={<IconCalendar size={20} />}
           styles={{
             input: inputStyles,
           }}
           readOnly
         />
-        <div className="flex items-center gap-2 pr-1">
+        <div className="flex items-center gap-2 pr-2">
           <SegmentedControl
+            size="lg"
             value={effort}
             onChange={setEffort}
             data={[
@@ -76,10 +78,10 @@ export default function Overlay() {
               root: {
                 background: "rgba(0, 0, 0, 0.1)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
-                padding: "2.5px",
+                padding: "4.5px",
               },
               label: {
-                padding: "4px 6px",
+                padding: "6px 6px",
               },
               indicator: {
                 background: "var(--mantine-color-orange-light)",
@@ -107,7 +109,7 @@ export default function Overlay() {
           >
             <Popover.Target>
               <ActionIcon variant="transparent" color="white">
-                <IconInfoCircle size={16} />
+                <IconInfoCircle size={20} />
               </ActionIcon>
             </Popover.Target>
             <Popover.Dropdown>
@@ -133,8 +135,9 @@ export default function Overlay() {
             </Popover.Dropdown>
           </Popover>
         </div>
-        <div className="flex items-center gap-2 pr-1">
+        <div className="flex items-center gap-2 pr-2">
           <Button
+            size="lg"
             color="orange"
             variant="light"
             onClick={() => {
@@ -146,9 +149,9 @@ export default function Overlay() {
             }}
             leftSection={
               runForSelectedDate ? (
-                <IconPencil size={16} />
+                <IconPencil size={20} />
               ) : (
-                <IconCirclePlus size={16} />
+                <IconCirclePlus size={20} />
               )
             }
             fullWidth
@@ -157,9 +160,10 @@ export default function Overlay() {
           </Button>
           {runForSelectedDate && selectedRun && (
             <Button
+              size="lg"
               variant="transparent"
               onClick={() => removeRun(selectedRun.date)}
-              leftSection={<IconTrash size={16} />}
+              leftSection={<IconTrash size={20} />}
               fullWidth
             >
               Delete
@@ -170,7 +174,7 @@ export default function Overlay() {
             color="white"
             onClick={() => selectRun(null)}
           >
-            <IconX size={16} />
+            <IconX size={20} />
           </ActionIcon>
         </div>
       </div>
