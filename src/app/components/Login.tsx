@@ -49,7 +49,7 @@ export default function SignIn() {
           alt="Logo"
           width={48}
           height={48}
-          className="rounded-full self-center"
+          className="rounded-full self-center py-4"
         />
         <div className="flex flex-col gap-2">
           {!hasAccount && (
