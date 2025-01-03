@@ -56,7 +56,7 @@ export default function Header() {
             </p>
           </div>
         </div>
-        <div className="flex gap-8">
+        <div className="flex gap-4">
           <div className="flex flex-col items-end">
             <p className="text-xs text-white/50">Longest</p>
             <p className="font-bold text-blue-500">

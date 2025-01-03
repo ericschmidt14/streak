@@ -7,7 +7,7 @@ export const effortLevels = [
   {
     level: "Moderate",
     description:
-      "A moderate run balances distance and intensity, covering 10-20k at an easy pace or shorter runs with increased effort. These runs may include hills or sustained efforts that challenge you without overexerting. They’re great for building stamina and preparing for longer distances.",
+      "A moderate run balances distance and intensity, covering 10-20k at an easy pace or shorter runs with increased effort. These runs may include hills or sustained efforts that challenge you without overexerting. They're great for building stamina and preparing for longer distances.",
   },
   {
     level: "Hard",

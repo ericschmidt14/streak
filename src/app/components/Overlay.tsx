@@ -94,6 +94,7 @@ export default function Overlay() {
             width={320}
             position="left"
             shadow="xl"
+            radius="md"
             withArrow
             styles={{
               dropdown: {
@@ -112,19 +113,16 @@ export default function Overlay() {
               </ActionIcon>
             </Popover.Target>
             <Popover.Dropdown>
-              <div className="flex flex-col gap-2">
-                <h2 className="text-2xl font-bold tracking-tighter">
-                  Effort Levels
-                </h2>
+              <div className="flex flex-col gap-4">
                 {effortLevels.map((e) => {
                   return (
                     <div key={e.level}>
                       <h3 className="font-bold">{e.level}</h3>
-                      <p className="text-sm text-white/50">{e.description}</p>
+                      <p className="text-xs text-white/50">{e.description}</p>
                     </div>
                   );
                 })}
-                <p className="text-sm text-white/50">
+                <p className="text-xs">
                   Note that these categories are highly subjective and can vary
                   significantly based on individual fitness levels, running
                   experience, daily energy levels, weather conditions, terrain,
