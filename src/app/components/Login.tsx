@@ -31,7 +31,7 @@ export default function SignIn() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <form
-        className={`relative z-50 w-[320px] flex flex-col gap-2 rounded-md ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
+        className={`relative z-50 w-[320px] flex flex-col gap-8 rounded-md ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
         onSubmit={(e) => {
           e.preventDefault();
           formAction(email, password);
@@ -39,47 +39,51 @@ export default function SignIn() {
       >
         <Image
           src="/logo.svg"
-          alt="Profile Image"
+          alt="Logo"
           width={48}
           height={48}
           className="rounded-full self-center"
         />
-        <TextInput
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          styles={{
-            input: inputStyles,
-          }}
-        />
-        <PasswordInput
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          styles={{
-            input: inputStyles,
-          }}
-        />
-        <Button
-          type="submit"
-          fullWidth
-          disabled={password.length < 6 || !isValidEmail(email)}
-        >
-          {actionText}
-        </Button>
-        {error && (
-          <div className="flex items-center gap-1">
-            <IconExclamationCircle size={16} color="#ec4899" />
-            <p className="text-pink-500">{error.message}</p>
-          </div>
-        )}
-        <div className="flex justify-center items-baseline gap-2 pt-4">
-          <p>{toggleText.question}</p>
+        <div className="flex flex-col gap-2">
+          <TextInput
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            styles={{
+              input: inputStyles,
+            }}
+          />
+          <PasswordInput
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            styles={{
+              input: inputStyles,
+            }}
+          />
+          <Button
+            type="submit"
+            color={hasAccount ? "red" : "blue"}
+            fullWidth
+            disabled={password.length < 6 || !isValidEmail(email)}
+          >
+            {actionText}
+          </Button>
+          {error && (
+            <div className="flex items-center gap-1">
+              <IconExclamationCircle size={16} color="#ec4899" />
+              <p className="text-pink-500">{error.message}</p>
+            </div>
+          )}
+        </div>
+        <div className="flex justify-center items-baseline gap-2">
+          <p className="text-xs text-white/50">{toggleText.question}</p>
           <Button
             variant="light"
-            color="blue"
+            color={hasAccount ? "blue" : "red"}
+            size="xs"
             onClick={() => setHasAccount(!hasAccount)}
           >
             {toggleText.action}
@@ -88,7 +92,7 @@ export default function SignIn() {
       </form>
       <DotPattern
         className={cn(
-          "[mask-image:radial-gradient(640px_circle_at_center,white,transparent)]"
+          "[mask-image:radial-gradient(560px_circle_at_center,white,transparent)]"
         )}
       />
     </div>
