@@ -1,5 +1,6 @@
 import { useStreakContext } from "../context/StreakContext";
 import Header from "./Header";
+import Loader from "./Loader";
 import Login from "./Login";
 import Overlay from "./Overlay";
 import StreakView from "./StreakView";
@@ -8,11 +9,7 @@ export default function App() {
   const { user, loading } = useStreakContext();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        <p>Loading...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!user) {
