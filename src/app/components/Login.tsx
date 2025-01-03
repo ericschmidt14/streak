@@ -29,7 +29,7 @@ export default function SignIn() {
   return (
     <div className="relative w-full h-screen flex justify-center items-center">
       <form
-        className={`relative z-50 w-[320px] flex flex-col gap-8 rounded-md ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
+        className={`relative z-50 w-[320px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
         onSubmit={(e) => {
           e.preventDefault();
           formAction(email, password);
