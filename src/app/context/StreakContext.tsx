@@ -15,9 +15,14 @@ interface StreakContextValue extends StreakResult {
   addRun: (newRun: RunData) => Promise<void>;
   removeRun: (date: string) => Promise<void>;
   selectRun: (run: RunData | null) => void;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (
+    email: string,
+    password: string,
+    displayName: string
+  ) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  updateDisplayName: (displayName: string) => Promise<void>;
   user: User | null;
   error: AuthError | null;
   loading: boolean;
@@ -41,25 +46,6 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedRun, setSelectedRun] = useState<RunData | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        setUser(session.user);
-      } else {
-        setUser(null);
-      }
-
-      if (error) {
-        console.error("Error fetching session:", error.message);
-      }
-      setLoading(false);
-    };
-
     fetchUser();
 
     const { data: subscription } = supabase.auth.onAuthStateChange(
@@ -86,10 +72,17 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
     setStreaks(getStreaks(runs));
   }, [runs]);
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    displayName: string
+  ) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { display_name: displayName },
+      },
     });
     setUser(data.user);
     setError(error);
@@ -107,6 +100,43 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     setError(error);
+  };
+
+  const updateDisplayName = async (displayName: string) => {
+    const { data, error } = await supabase.auth.updateUser({
+      data: {
+        display_name: displayName,
+      },
+    });
+
+    if (error) {
+      console.error("Error updating display name:", error.message);
+    } else {
+      console.log("User metadata updated successfully:", data);
+    }
+  };
+
+  const fetchUser = async () => {
+    setLoading(true);
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
+
+    if (session) {
+      setUser(session.user);
+      const { data: userDetails } = await supabase.auth.getUser();
+      if (userDetails.user?.user_metadata?.display_name) {
+        console.log(`Welcome, ${userDetails.user.user_metadata.display_name}`);
+      }
+    } else {
+      setUser(null);
+    }
+
+    if (error) {
+      console.error("Error fetching session:", error.message);
+    }
+    setLoading(false);
   };
 
   const fetchRuns = async () => {
@@ -197,6 +227,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
         signUp,
         signIn,
         signOut,
+        updateDisplayName,
         user,
         error,
         loading,

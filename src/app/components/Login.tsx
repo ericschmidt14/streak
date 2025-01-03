@@ -1,6 +1,11 @@
 "use client";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { IconExclamationCircle, IconLock, IconUser } from "@tabler/icons-react";
+import {
+  IconAt,
+  IconExclamationCircle,
+  IconLock,
+  IconUser,
+} from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
@@ -17,10 +22,10 @@ export default function SignIn() {
   const { signIn, signUp, error } = useStreakContext();
 
   const [hasAccount, setHasAccount] = useState(true);
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const formAction = hasAccount ? signIn : signUp;
   const actionText = hasAccount ? "Sign In" : "Sign Up";
   const toggleText = hasAccount
     ? { question: "No account yet?", action: "Sign Up" }
@@ -32,7 +37,11 @@ export default function SignIn() {
         className={`relative z-50 w-[360px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
         onSubmit={(e) => {
           e.preventDefault();
-          formAction(email, password);
+          if (hasAccount) {
+            signIn(email, password);
+          } else {
+            signUp(email, password, displayName);
+          }
         }}
       >
         <Image
@@ -43,6 +52,18 @@ export default function SignIn() {
           className="rounded-full self-center"
         />
         <div className="flex flex-col gap-2">
+          {!hasAccount && (
+            <TextInput
+              size="lg"
+              placeholder="Name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              styles={{
+                input: inputStyles,
+              }}
+              leftSection={<IconUser size={20} />}
+            />
+          )}
           <TextInput
             size="lg"
             type="email"
@@ -52,7 +73,7 @@ export default function SignIn() {
             styles={{
               input: inputStyles,
             }}
-            leftSection={<IconUser size={20} />}
+            leftSection={<IconAt size={20} />}
           />
           <PasswordInput
             size="lg"
