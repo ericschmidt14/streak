@@ -1,9 +1,10 @@
 "use client";
-import { ActionIcon, Button, SegmentedControl } from "@mantine/core";
+import { ActionIcon, Button, Popover, SegmentedControl } from "@mantine/core";
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
 import {
   IconCalendar,
   IconCirclePlus,
+  IconInfoCircle,
   IconPencil,
   IconTrash,
   IconX,
@@ -12,6 +13,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/en";
 import { useEffect, useMemo, useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
+import { effortLevels } from "../lib/data";
 import {
   backdropBlur,
   borderTop,
@@ -41,7 +43,7 @@ export default function Overlay() {
   return (
     <DatesProvider settings={{ locale: "en" }}>
       <div
-        className={`fixed bottom-0 left-0 z-50 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop}`}
+        className={`fixed bottom-0 left-0 z-50 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop} backdrop-blur-md`}
         style={{
           transform: selectedRun ? "translateY(0)" : "translateY(200px)",
           transition: "300ms all ease-in-out",
@@ -52,7 +54,7 @@ export default function Overlay() {
           onChange={setDate}
           valueFormat="DD MMMM YYYY"
           defaultValue={new Date()}
-          leftSection={<IconCalendar size={16} />}
+          rightSection={<IconCalendar size={16} />}
           styles={{
             input: {
               background: "rgba(0,0,0,0.1)",
@@ -61,31 +63,81 @@ export default function Overlay() {
           }}
           readOnly
         />
-        <SegmentedControl
-          value={effort}
-          onChange={setEffort}
-          data={[
-            { label: "Easy", value: "1" },
-            { label: "Moderate", value: "3" },
-            { label: "Hard", value: "5" },
-          ]}
-          withItemsBorders={false}
-          styles={{
-            root: {
-              background: "rgba(0, 0, 0, 0.1)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              padding: "2.5px",
-            },
-            label: {
-              padding: "4px 6px",
-            },
-            indicator: {
-              background: "var(--mantine-color-orange-light)",
-              borderRadius: "2px",
-            },
-          }}
-        />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pr-1">
+          <SegmentedControl
+            value={effort}
+            onChange={setEffort}
+            data={[
+              { label: "Easy", value: "1" },
+              { label: "Moderate", value: "3" },
+              { label: "Hard", value: "5" },
+            ]}
+            withItemsBorders={false}
+            className="w-full"
+            styles={{
+              root: {
+                background: "rgba(0, 0, 0, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                padding: "2.5px",
+              },
+              label: {
+                padding: "4px 6px",
+              },
+              indicator: {
+                background: "var(--mantine-color-orange-light)",
+                borderRadius: "2px",
+              },
+            }}
+            fullWidth
+          />
+          <Popover
+            width={320}
+            position="left"
+            shadow="xl"
+            withArrow
+            styles={{
+              dropdown: {
+                background: "rgba(0, 0, 0, 1)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+              },
+              arrow: {
+                background: "rgba(0, 0, 0, 1)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+              },
+            }}
+          >
+            <Popover.Target>
+              <ActionIcon variant="transparent" color="white">
+                <IconInfoCircle size={16} />
+              </ActionIcon>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <div className="flex flex-col gap-2">
+                <h2 className="text-2xl font-bold tracking-tighter">
+                  Effort Levels
+                </h2>
+                {effortLevels.map((e) => {
+                  return (
+                    <div key={e.level}>
+                      <h3 className="font-bold">{e.level}</h3>
+                      <p className="text-sm text-white/50">{e.description}</p>
+                    </div>
+                  );
+                })}
+                <p className="text-sm text-white/50">
+                  Note that these categories are highly subjective and can vary
+                  significantly based on individual fitness levels, running
+                  experience, daily energy levels, weather conditions, terrain,
+                  and other personal factors. Use this guide as a rough
+                  framework to gauge effort, but always listen to your body and
+                  prioritize your health and safety. When in doubt, consult with
+                  a coach or professional for personalized advice.
+                </p>
+              </div>
+            </Popover.Dropdown>
+          </Popover>
+        </div>
+        <div className="flex items-center gap-2 pr-1">
           <Button
             color="orange"
             variant="light"
