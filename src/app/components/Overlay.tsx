@@ -46,7 +46,7 @@ export default function Overlay() {
       <div
         className={`fixed bottom-0 left-0 z-50 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop} backdrop-blur-md`}
         style={{
-          transform: selectedRun ? "translateY(0)" : "translateY(200px)",
+          transform: selectedRun ? "translateY(0)" : "translateY(240px)",
           transition: "300ms all ease-in-out",
         }}
       >
@@ -156,7 +156,7 @@ export default function Overlay() {
             }
             fullWidth
           >
-            {runForSelectedDate ? "Update" : "Add"} Run
+            {runForSelectedDate ? "Update" : "Add"}
           </Button>
           {runForSelectedDate && selectedRun && (
             <Button
