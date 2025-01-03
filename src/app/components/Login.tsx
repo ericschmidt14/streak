@@ -11,8 +11,7 @@ import {
   defaultShadow,
   inputStyles,
 } from "../lib/styles";
-import { cn, isValidEmail } from "../lib/utils";
-import DotPattern from "./Dots";
+import { isValidEmail } from "../lib/utils";
 
 export default function SignIn() {
   const { signIn, signUp, error } = useStreakContext();
@@ -21,7 +20,6 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Determine form action and button text dynamically
   const formAction = hasAccount ? signIn : signUp;
   const actionText = hasAccount ? "Sign In" : "Sign Up";
   const toggleText = hasAccount
@@ -29,7 +27,7 @@ export default function SignIn() {
     : { question: "Already signed up?", action: "Sign In" };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="relative w-full h-screen flex justify-center items-center">
       <form
         className={`relative z-50 w-[320px] flex flex-col gap-8 rounded-md ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
         onSubmit={(e) => {
@@ -90,10 +88,13 @@ export default function SignIn() {
           </Button>
         </div>
       </form>
-      <DotPattern
-        className={cn(
-          "[mask-image:radial-gradient(560px_circle_at_center,white,transparent)]"
-        )}
+      <Image
+        src="/track.png"
+        alt="Track Background"
+        layout="fill"
+        objectFit="cover"
+        quality={100}
+        className="absolute z-0 brightness-50"
       />
     </div>
   );

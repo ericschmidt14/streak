@@ -1,11 +1,5 @@
-import clsx, { ClassValue } from "clsx";
 import dayjs from "dayjs";
-import { twMerge } from "tailwind-merge";
 import { RunData, StreakResult } from "./interfaces";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 export function getStreaks(data: RunData[]): StreakResult {
   if (data.length === 0) {
