@@ -1,3 +1,11 @@
+export interface UserData {
+  email?: string;
+  password?: string;
+  data: {
+    display_name: string;
+  };
+}
+
 export interface RunData {
   date: string;
   effort: number;

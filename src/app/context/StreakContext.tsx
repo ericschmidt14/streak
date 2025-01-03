@@ -1,7 +1,7 @@
 import { AuthError, createClient, User } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { RunData, StreakResult } from "../lib/interfaces";
+import { RunData, StreakResult, UserData } from "../lib/interfaces";
 import { getStreaks } from "../lib/utils";
 
 const supabase = createClient(
@@ -22,7 +22,11 @@ interface StreakContextValue extends StreakResult {
   ) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
-  updateDisplayName: (displayName: string) => Promise<void>;
+  updateUserDetails: (
+    displayName: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
   user: User | null;
   error: AuthError | null;
   loading: boolean;
@@ -102,18 +106,27 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
     setError(error);
   };
 
-  const updateDisplayName = async (displayName: string) => {
-    const { data, error } = await supabase.auth.updateUser({
+  const updateUserDetails = async (
+    displayName: string,
+    email: string,
+    password: string
+  ) => {
+    const updateData: UserData = {
       data: {
         display_name: displayName,
       },
-    });
+    };
 
-    if (error) {
-      console.error("Error updating display name:", error.message);
-    } else {
-      console.log("User metadata updated successfully:", data);
+    if (email !== "") {
+      updateData.email = email;
     }
+
+    if (password !== "") {
+      updateData.password = password;
+    }
+
+    const { error } = await supabase.auth.updateUser(updateData);
+    setError(error);
   };
 
   const fetchUser = async () => {
@@ -227,7 +240,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
         signUp,
         signIn,
         signOut,
-        updateDisplayName,
+        updateUserDetails,
         user,
         error,
         loading,
