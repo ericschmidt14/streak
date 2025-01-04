@@ -4,7 +4,9 @@ import {
   IconAt,
   IconExclamationCircle,
   IconLock,
+  IconLogin2,
   IconUser,
+  IconUserPlus,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -89,6 +91,9 @@ export default function SignIn() {
             type="submit"
             color={hasAccount ? "red" : "blue"}
             fullWidth
+            leftSection={
+              hasAccount ? <IconLogin2 size={20} /> : <IconUserPlus size={20} />
+            }
             disabled={password.length < 6 || !isValidEmail(email)}
           >
             {actionText}
