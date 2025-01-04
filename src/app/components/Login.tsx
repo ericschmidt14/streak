@@ -13,7 +13,6 @@ import {
   backdropBlur,
   border,
   defaultPadding,
-  defaultShadow,
   inputStyles,
 } from "../lib/styles";
 import { isValidEmail } from "../lib/utils";
@@ -34,7 +33,7 @@ export default function SignIn() {
   return (
     <div className="relative w-full h-screen flex justify-center items-center">
       <form
-        className={`relative z-50 w-[360px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${defaultShadow} ${backdropBlur} ${border}`}
+        className={`relative z-50 w-[360px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${backdropBlur} shadow-2xl shadow-blue-500/50 ring-1 ring-white/10 ${border}`}
         onSubmit={(e) => {
           e.preventDefault();
           if (hasAccount) {
@@ -113,14 +112,6 @@ export default function SignIn() {
           </Button>
         </div>
       </form>
-      <Image
-        src="/track.png"
-        alt="Track Background"
-        layout="fill"
-        objectFit="cover"
-        quality={100}
-        className="absolute z-0 brightness-50"
-      />
     </div>
   );
 }
