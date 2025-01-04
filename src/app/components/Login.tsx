@@ -33,7 +33,7 @@ export default function SignIn() {
   return (
     <div className="relative w-full h-screen flex justify-center items-center">
       <form
-        className={`relative z-50 w-[360px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${backdropBlur} shadow-2xl shadow-blue-500/50 ring-1 ring-white/10 ${border}`}
+        className={`relative z-50 w-[360px] flex flex-col gap-8 rounded-lg ${defaultPadding} ${backdropBlur} shadow-2xl shadow-blue-500/50 ${border}`}
         onSubmit={(e) => {
           e.preventDefault();
           if (hasAccount) {
