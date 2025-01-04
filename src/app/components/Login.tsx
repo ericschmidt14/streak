@@ -112,6 +112,14 @@ export default function SignIn() {
           </Button>
         </div>
       </form>
+      <Image
+        src="/bg.svg"
+        alt="Track Background"
+        layout="fill"
+        objectFit="cover"
+        quality={100}
+        className="absolute top-0 z-0 brightness-50"
+      />
     </div>
   );
 }
