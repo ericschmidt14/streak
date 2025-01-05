@@ -52,7 +52,7 @@ export default function Settings({
           placeholder="New name"
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
-          leftSection={<IconUser size={16} />}
+          leftSection={<IconUser size={20} />}
           styles={{
             input: inputStyles,
           }}
