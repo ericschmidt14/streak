@@ -12,7 +12,7 @@ export default function Info({
   return (
     <div className={`flex flex-col ${alignRight && "items-end"}`}>
       <p className="text-xs text-white/50">{label}</p>
-      <p className={`font-bold ${color && `text-[var(--${color})]`}`}>
+      <p className="font-bold" style={{ color: `var(--${color})` }}>
         {value}
       </p>
     </div>
