@@ -27,7 +27,7 @@ export default function Year({ year }: { year: number }) {
       <header className="flex justify-between items-end gap-2">
         <h2 className="text-4xl font-bold tracking-tighter">{year}</h2>
         <Sparkline
-          curveType="linear"
+          curveType="monotone"
           trendColors={{ positive: "blue.5", negative: "red.5" }}
           data={efforts}
           fillOpacity={0.6}

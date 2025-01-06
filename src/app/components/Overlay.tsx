@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/en";
 import { useEffect, useMemo, useState } from "react";
 import { useStreakContext } from "../context/StreakContext";
-import { effortLevels } from "../lib/data";
+import { disclaimer, effortLevels } from "../lib/data";
 import {
   backdropBlur,
   border,
@@ -144,7 +144,7 @@ export default function Overlay() {
         </div>
       </div>
       <div
-        className={`fixed bottom-0 z-50 flex flex-col gap-4 ${defaultPadding} ${defaultShadow} ${backdropBlur} ${borderTop}`}
+        className={`fixed bottom-0 z-50 flex flex-col gap-4 ${defaultPadding} pb-12 md:pb-4 ${defaultShadow} ${backdropBlur} ${borderTop}`}
         style={{
           transform: open ? "translateY(0)" : "translateY(800px)",
           transition: "300ms all ease-in-out",
@@ -172,15 +172,7 @@ export default function Overlay() {
           <div>
             <IconInfoCircle size={16} />
           </div>
-          <p className="text-xs">
-            Note that these categories are highly subjective and can vary
-            significantly based on individual fitness levels, running
-            experience, daily energy levels, weather conditions, terrain, and
-            other personal factors. Use this guide as a rough framework to gauge
-            effort, but always listen to your body and prioritize your health
-            and safety. When in doubt, consult with a coach or professional for
-            personalized advice.
-          </p>
+          <p className="text-xs">{disclaimer}</p>
         </div>
       </div>
     </DatesProvider>

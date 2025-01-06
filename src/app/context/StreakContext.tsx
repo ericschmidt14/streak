@@ -51,7 +51,6 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     fetchUser();
-
     const { data: subscription } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session) {

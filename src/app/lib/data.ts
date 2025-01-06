@@ -15,3 +15,6 @@ export const effortLevels = [
       "Hard efforts push your limits with runs over 20k, faster paces, or structured workouts like intervals or threshold training. These sessions aim to improve speed, endurance, and mental toughness. Expect to breathe harder and feel the effort throughout.",
   },
 ];
+
+export const disclaimer =
+  "Note that these categories are highly subjective and can vary significantly based on individual fitness levels, running experience, daily energy levels, weather conditions, terrain, and other personal factors. Use this guide as a rough framework to gauge effort, but always listen to your body and prioritize your health and safety. When in doubt, consult with a coach or professional for personalized advice.";
