@@ -6,6 +6,17 @@ export function hasRunToday(data: RunData[]): boolean {
   return data.some((run) => run.date === today);
 }
 
+export function getHistory(runs: RunData[]) {
+  const last10Days = Array.from({ length: 14 }, (_, i) =>
+    dayjs().subtract(i, "day").format("YYYY-MM-DD")
+  ).reverse();
+
+  return last10Days.map((day) => {
+    const runForDay = runs.find((run) => run.date === day);
+    return runForDay ? runForDay.effort : 0;
+  });
+}
+
 export function getStreaks(data: RunData[]): StreakResult {
   if (data.length === 0) {
     return {

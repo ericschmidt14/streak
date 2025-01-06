@@ -1,6 +1,11 @@
+import { Sparkline } from "@mantine/charts";
+import { useStreakContext } from "../context/StreakContext";
+import { getHistory } from "../lib/utils";
 import Month from "./Month";
 
 export default function Year({ year }: { year: number }) {
+  const { runs } = useStreakContext();
+
   const months = [
     "January",
     "February",
@@ -15,10 +20,22 @@ export default function Year({ year }: { year: number }) {
     "November",
     "December",
   ];
+  const efforts = getHistory(runs);
 
   return (
-    <div>
-      <h2 className="text-4xl font-bold tracking-tighter">{year}</h2>
+    <div className="flex flex-col gap-2">
+      <header className="flex justify-between items-end gap-2">
+        <h2 className="text-4xl font-bold tracking-tighter">{year}</h2>
+        <Sparkline
+          curveType="linear"
+          trendColors={{ positive: "blue", negative: "red" }}
+          data={efforts}
+          fillOpacity={0.4}
+          strokeWidth={2}
+          w={240}
+          h={48}
+        />
+      </header>
       <div className="grid grid-cols-[repeat(13,1fr)] lg:grid-cols-1">
         <div className="grid gap-2 grid-cols-1 grid-rows-[repeat(32,1fr)] lg:grid-cols-[repeat(32,1fr)] lg:grid-rows-1">
           <div className="aspect-square max-w-8 max-h-8" />
