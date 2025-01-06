@@ -10,6 +10,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { APP_VERSION } from "../config";
 import { useStreakContext } from "../context/StreakContext";
 import {
   backdropBlur,
@@ -40,12 +41,22 @@ export default function Settings({
 
   return (
     <div
-      className={`fixed top-0 left-0 z-50 w-screen ${defaultPadding} grid grid-cols-1 md:grid-cols-2 justify-center items-center md:items-end gap-8 ${defaultShadow} ${backdropBlur} ${borderBottom} backdrop-blur-md`}
+      className={`fixed top-0 left-0 z-50 w-screen ${defaultPadding} grid grid-cols-1 md:grid-cols-2 justify-center items-center md:items-end gap-4 ${defaultShadow} ${backdropBlur} ${borderBottom} backdrop-blur-md`}
       style={{
         transform: open ? "translateY(0)" : "translateY(-440px)",
         transition: "300ms all ease-in-out",
       }}
     >
+      <footer className="flex justify-between gap-2">
+        <a href="https://github.com/ericschmidt14/streak">
+          <p className="text-xs text-white/50">Version {APP_VERSION}</p>
+        </a>
+        <a href="mailto:streak@ericschmidt.de">
+          <p className="text-xs text-white/50">
+            Created by E R I C S C H M I D T
+          </p>
+        </a>
+      </footer>
       <div className="grid grid-cols-1 gap-2">
         <TextInput
           size="lg"
