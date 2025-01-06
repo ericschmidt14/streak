@@ -26,7 +26,7 @@ export default function Year({ year }: { year: number }) {
         <h2 className="text-4xl font-bold tracking-tighter">{year}</h2>
         <Sparkline
           curveType="monotone"
-          trendColors={{ positive: "blue.5", negative: "red.5" }}
+          color="red.5"
           data={streakHistory}
           fillOpacity={0.6}
           strokeWidth={1.4}
