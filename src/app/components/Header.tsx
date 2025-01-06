@@ -13,6 +13,7 @@ import {
   defaultShadow,
 } from "../lib/styles";
 import { hasRunToday } from "../lib/utils";
+import Info from "./Info";
 import Settings from "./Settings";
 
 export default function Header() {
@@ -69,27 +70,24 @@ export default function Header() {
           </ActionIcon>
         </div>
         <div className={`flex justify-between items-center ${defaultPadding}`}>
-          <div className="flex gap-8">
-            <div className="flex flex-col">
-              <p className="text-xs text-white/50">Today</p>
-              <p className="font-bold">
-                {dayjs(new Date()).format("DD MMMM YYYY")}
-              </p>
-            </div>
-          </div>
+          <Info
+            label="Today"
+            value={dayjs(new Date()).format("DD MMMM YYYY")}
+            color="foreground"
+          />
           <div className="flex gap-4">
-            <div className="flex flex-col items-end">
-              <p className="text-xs text-white/50">Longest</p>
-              <p className="font-bold text-[var(--blue)]">
-                {longestStreak} {pluralize("day", longestStreak)}
-              </p>
-            </div>
-            <div className="flex flex-col items-end">
-              <p className="text-xs text-white/50">Current</p>
-              <p className="font-bold text-[var(--red)]">
-                {currentStreak} {pluralize("day", currentStreak)}
-              </p>
-            </div>
+            <Info
+              label="Longest"
+              value={`${longestStreak} ${pluralize("day", longestStreak)}`}
+              color="blue"
+              alignRight
+            />
+            <Info
+              label="Current"
+              value={`${currentStreak} ${pluralize("day", currentStreak)}`}
+              color="red"
+              alignRight
+            />
           </div>
         </div>
       </header>
