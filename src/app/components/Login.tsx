@@ -101,7 +101,7 @@ export default function SignIn() {
           {error && (
             <div className="flex items-center gap-1">
               <IconExclamationCircle size={16} color="#ec4899" />
-              <p className="text-pink-500">{error.message}</p>
+              <p className="text-[var(--red)]">{error.message}</p>
             </div>
           )}
         </div>

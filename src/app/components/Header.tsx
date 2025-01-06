@@ -80,13 +80,13 @@ export default function Header() {
           <div className="flex gap-4">
             <div className="flex flex-col items-end">
               <p className="text-xs text-white/50">Longest</p>
-              <p className="font-bold text-blue-500">
+              <p className="font-bold text-[var(--blue)]">
                 {longestStreak} {pluralize("day", longestStreak)}
               </p>
             </div>
             <div className="flex flex-col items-end">
               <p className="text-xs text-white/50">Current</p>
-              <p className="font-bold text-pink-500">
+              <p className="font-bold text-[var(--red)]">
                 {currentStreak} {pluralize("day", currentStreak)}
               </p>
             </div>
