@@ -35,12 +35,8 @@ export default function Day({
     >
       <div
         className={`rounded-full ${
-          isSelected ? "ring-2 ring-orange-500 shadow-xl shadow-orange-500" : ""
-        } ${
-          isToday && !isSelected
-            ? "ring-2 ring-white shadow-xl shadow-white"
-            : ""
-        } `}
+          isSelected && "ring-2 ring-orange-500 shadow-xl shadow-orange-500"
+        } ${isToday && "border border-white shadow-xl shadow-white"} `}
         style={{
           width: size,
           height: size,
