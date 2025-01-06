@@ -7,12 +7,13 @@ export function hasRunToday(data: RunData[]): boolean {
 }
 
 export function getHistory(runs: RunData[]) {
-  const last10Days = Array.from({ length: 14 }, (_, i) =>
+  const days = Array.from({ length: 14 }, (_, i) =>
     dayjs().subtract(i, "day").format("YYYY-MM-DD")
   ).reverse();
+  const recentRuns = runs.slice(-10);
 
-  return last10Days.map((day) => {
-    const runForDay = runs.find((run) => run.date === day);
+  return days.map((day) => {
+    const runForDay = recentRuns.find((run) => run.date === day);
     return runForDay ? runForDay.effort : 0;
   });
 }

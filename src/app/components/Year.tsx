@@ -31,7 +31,7 @@ export default function Year({ year }: { year: number }) {
           trendColors={{ positive: "blue", negative: "red" }}
           data={efforts}
           fillOpacity={0.6}
-          strokeWidth={2}
+          strokeWidth={1.4}
           w={180}
           h={36}
         />
