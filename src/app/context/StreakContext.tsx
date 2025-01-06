@@ -46,6 +46,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
     currentStreak: 0,
     longestStreakDates: [],
     currentStreakDates: [],
+    streakHistory: [],
   });
   const [selectedRun, setSelectedRun] = useState<RunData | null>(null);
 
@@ -236,6 +237,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
         longestStreakDates: streaks.longestStreakDates,
         currentStreak: streaks.currentStreak,
         currentStreakDates: streaks.currentStreakDates,
+        streakHistory: streaks.streakHistory,
         signUp,
         signIn,
         signOut,

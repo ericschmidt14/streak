@@ -1,10 +1,9 @@
 import { Sparkline } from "@mantine/charts";
 import { useStreakContext } from "../context/StreakContext";
-import { getHistory } from "../lib/utils";
 import Month from "./Month";
 
 export default function Year({ year }: { year: number }) {
-  const { runs } = useStreakContext();
+  const { streakHistory } = useStreakContext();
 
   const months = [
     "January",
@@ -20,7 +19,6 @@ export default function Year({ year }: { year: number }) {
     "November",
     "December",
   ];
-  const efforts = getHistory(runs);
 
   return (
     <div className="flex flex-col gap-2">
@@ -29,7 +27,7 @@ export default function Year({ year }: { year: number }) {
         <Sparkline
           curveType="monotone"
           trendColors={{ positive: "blue.5", negative: "red.5" }}
-          data={efforts}
+          data={streakHistory}
           fillOpacity={0.6}
           strokeWidth={1.4}
           w={180}

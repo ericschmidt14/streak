@@ -10,18 +10,6 @@ export function hasRunToday(data: RunData[]): boolean {
   return lastRunDate === today;
 }
 
-export function getHistory(runs: RunData[]) {
-  const days = Array.from({ length: 14 }, (_, i) =>
-    dayjs().subtract(i, "day").format("YYYY-MM-DD")
-  ).reverse();
-  const recentRuns = runs.slice(-10);
-
-  return days.map((day) => {
-    const runForDay = recentRuns.find((run) => run.date === day);
-    return runForDay ? runForDay.effort : 0;
-  });
-}
-
 export function getStreaks(data: RunData[]): StreakResult {
   if (data.length === 0) {
     return {
@@ -29,6 +17,7 @@ export function getStreaks(data: RunData[]): StreakResult {
       currentStreak: 0,
       longestStreakDates: [],
       currentStreakDates: [],
+      streakHistory: [],
     };
   }
 
@@ -40,6 +29,7 @@ export function getStreaks(data: RunData[]): StreakResult {
   let currentStreak = 0;
   let longestStreakDates: string[] = [];
   let currentStreakDates: string[] = [];
+  const streakHistory: number[] = [0];
 
   let tempStreak = 1;
   let tempStreakDates: string[] = [sortedDates[0].format("YYYY-MM-DD")];
@@ -52,6 +42,7 @@ export function getStreaks(data: RunData[]): StreakResult {
       tempStreak++;
       tempStreakDates.push(currentDate.format("YYYY-MM-DD"));
     } else {
+      streakHistory.push(tempStreak, 0);
       if (tempStreak > longestStreak) {
         longestStreak = tempStreak;
         longestStreakDates = [...tempStreakDates];
@@ -61,6 +52,7 @@ export function getStreaks(data: RunData[]): StreakResult {
     }
   }
 
+  streakHistory.push(tempStreak);
   if (tempStreak > longestStreak) {
     longestStreak = tempStreak;
     longestStreakDates = [...tempStreakDates];
@@ -102,6 +94,7 @@ export function getStreaks(data: RunData[]): StreakResult {
     currentStreak,
     longestStreakDates,
     currentStreakDates,
+    streakHistory,
   };
 }
 

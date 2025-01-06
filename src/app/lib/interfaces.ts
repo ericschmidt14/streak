@@ -17,4 +17,5 @@ export interface StreakResult {
   currentStreak: number;
   longestStreakDates: string[];
   currentStreakDates: string[];
+  streakHistory: number[];
 }
