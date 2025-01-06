@@ -28,7 +28,7 @@ export default function Year({ year }: { year: number }) {
         <h2 className="text-4xl font-bold tracking-tighter">{year}</h2>
         <Sparkline
           curveType="linear"
-          trendColors={{ positive: "blue", negative: "red" }}
+          trendColors={{ positive: "blue.5", negative: "red.5" }}
           data={efforts}
           fillOpacity={0.6}
           strokeWidth={1.4}
