@@ -61,7 +61,7 @@ export default function Header() {
             size="xl"
             radius="xl"
             variant="gradient"
-            gradient={{ from: "blue", to: "red", deg: 66 }}
+            gradient={{ from: "red", to: "blue", deg: 75 }}
             onClick={() => setOpen(true)}
             className={border}
           >
