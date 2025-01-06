@@ -1,9 +1,15 @@
-import { IconLoader2 } from "@tabler/icons-react";
+import Image from "next/image";
 
 export default function Loader() {
   return (
     <div className="flex items-center justify-center w-full h-screen">
-      <IconLoader2 size={48} className="animate-spin" />
+      <Image
+        src="/logo.svg"
+        alt="Logo"
+        width={48}
+        height={48}
+        className="animate-bounce"
+      />
     </div>
   );
 }

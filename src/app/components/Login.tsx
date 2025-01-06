@@ -119,7 +119,7 @@ export default function SignIn() {
       </form>
       <Image
         src="/bg.svg"
-        alt="Track Background"
+        alt="Background"
         layout="fill"
         objectFit="cover"
         quality={100}
