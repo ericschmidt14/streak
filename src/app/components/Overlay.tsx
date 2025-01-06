@@ -1,5 +1,5 @@
 "use client";
-import { ActionIcon, Button, Popover, SegmentedControl } from "@mantine/core";
+import { ActionIcon, Button, SegmentedControl } from "@mantine/core";
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
 import {
   IconCalendar,
@@ -16,6 +16,7 @@ import { useStreakContext } from "../context/StreakContext";
 import { effortLevels } from "../lib/data";
 import {
   backdropBlur,
+  border,
   borderTop,
   defaultPadding,
   defaultShadow,
@@ -27,6 +28,7 @@ export default function Overlay() {
     useStreakContext();
   const [date, setDate] = useState<Date | null>(new Date());
   const [effort, setEffort] = useState<string>("1");
+  const [open, setOpen] = useState<boolean>(false);
 
   const runForSelectedDate = useMemo(() => {
     if (!date) return null;
@@ -44,7 +46,7 @@ export default function Overlay() {
   return (
     <DatesProvider settings={{ locale: "en" }}>
       <div
-        className={`fixed bottom-0 left-0 z-50 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop} backdrop-blur-md`}
+        className={`fixed bottom-0 left-0 z-40 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop}`}
         style={{
           transform: selectedRun ? "translateY(0)" : "translateY(240px)",
           transition: "300ms all ease-in-out",
@@ -90,50 +92,13 @@ export default function Overlay() {
             }}
             fullWidth
           />
-          <Popover
-            width={320}
-            position="left"
-            shadow="xl"
-            radius="md"
-            withArrow
-            styles={{
-              dropdown: {
-                background: "rgba(0, 0, 0, 1)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-              },
-              arrow: {
-                background: "rgba(0, 0, 0, 1)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-              },
-            }}
+          <ActionIcon
+            variant="transparent"
+            color="white"
+            onClick={() => setOpen(true)}
           >
-            <Popover.Target>
-              <ActionIcon variant="transparent" color="white">
-                <IconInfoCircle size={20} />
-              </ActionIcon>
-            </Popover.Target>
-            <Popover.Dropdown>
-              <div className="flex flex-col gap-4">
-                {effortLevels.map((e) => {
-                  return (
-                    <div key={e.level}>
-                      <h3 className="font-bold">{e.level}</h3>
-                      <p className="text-xs text-white/50">{e.description}</p>
-                    </div>
-                  );
-                })}
-                <p className="text-xs">
-                  Note that these categories are highly subjective and can vary
-                  significantly based on individual fitness levels, running
-                  experience, daily energy levels, weather conditions, terrain,
-                  and other personal factors. Use this guide as a rough
-                  framework to gauge effort, but always listen to your body and
-                  prioritize your health and safety. When in doubt, consult with
-                  a coach or professional for personalized advice.
-                </p>
-              </div>
-            </Popover.Dropdown>
-          </Popover>
+            <IconInfoCircle size={20} />
+          </ActionIcon>
         </div>
         <div className="flex items-center gap-2 pr-2">
           <Button
@@ -156,7 +121,7 @@ export default function Overlay() {
             }
             fullWidth
           >
-            {runForSelectedDate ? "Update" : "Add"}
+            {runForSelectedDate ? "Update" : "Add Run"}
           </Button>
           {runForSelectedDate && selectedRun && (
             <Button
@@ -176,6 +141,46 @@ export default function Overlay() {
           >
             <IconX size={20} />
           </ActionIcon>
+        </div>
+      </div>
+      <div
+        className={`fixed bottom-0 z-50 flex flex-col gap-4 ${defaultPadding} ${defaultShadow} ${backdropBlur} ${borderTop}`}
+        style={{
+          transform: open ? "translateY(0)" : "translateY(800px)",
+          transition: "300ms all ease-in-out",
+        }}
+      >
+        <header className="flex justify-between items-baseline gap-2">
+          <h2 className="text-xl font-bold tracking-tighter">Effort Levels</h2>
+          <ActionIcon
+            variant="transparent"
+            color="white"
+            onClick={() => setOpen(false)}
+          >
+            <IconX size={16} />
+          </ActionIcon>
+        </header>
+        {effortLevels.map((e) => {
+          return (
+            <div key={e.level}>
+              <h3 className="font-bold">{e.level}</h3>
+              <p className="text-xs text-white/50">{e.description}</p>
+            </div>
+          );
+        })}
+        <div className={`flex gap-2 rounded-md p-4 ${border}`}>
+          <div>
+            <IconInfoCircle size={16} />
+          </div>
+          <p className="text-xs">
+            Note that these categories are highly subjective and can vary
+            significantly based on individual fitness levels, running
+            experience, daily energy levels, weather conditions, terrain, and
+            other personal factors. Use this guide as a rough framework to gauge
+            effort, but always listen to your body and prioritize your health
+            and safety. When in doubt, consult with a coach or professional for
+            personalized advice.
+          </p>
         </div>
       </div>
     </DatesProvider>
