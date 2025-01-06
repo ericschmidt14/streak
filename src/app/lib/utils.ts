@@ -2,8 +2,12 @@ import dayjs from "dayjs";
 import { RunData, StreakResult } from "./interfaces";
 
 export function hasRunToday(data: RunData[]): boolean {
+  if (data.length === 0) return false;
+
   const today = dayjs().format("YYYY-MM-DD");
-  return data.some((run) => run.date === today);
+  const lastRunDate = data[data.length - 1].date;
+
+  return lastRunDate === today;
 }
 
 export function getHistory(runs: RunData[]) {
