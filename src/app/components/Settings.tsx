@@ -41,7 +41,7 @@ export default function Settings({
 
   return (
     <div
-      className={`fixed top-0 left-0 z-50 w-screen ${defaultPadding} grid grid-cols-1 md:grid-cols-2 justify-center items-center md:items-end gap-4 ${defaultShadow} ${backdropBlur} ${borderBottom} backdrop-blur-md`}
+      className={`fixed top-0 left-0 z-50 w-screen ${defaultPadding} grid grid-cols-1 justify-center items-center md:items-end gap-4 ${defaultShadow} ${backdropBlur} ${borderBottom} backdrop-blur-md`}
       style={{
         transform: open ? "translateY(0)" : "translateY(-440px)",
         transition: "300ms all ease-in-out",
