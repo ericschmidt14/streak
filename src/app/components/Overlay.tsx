@@ -29,6 +29,7 @@ export default function Overlay() {
   const [date, setDate] = useState<Date | null>(new Date());
   const [effort, setEffort] = useState<string>("1");
   const [open, setOpen] = useState<boolean>(false);
+  const [confirm, setConfirm] = useState<boolean>(false);
 
   const runForSelectedDate = useMemo(() => {
     if (!date) return null;
@@ -46,103 +47,134 @@ export default function Overlay() {
   return (
     <DatesProvider settings={{ locale: "en" }}>
       <div
-        className={`fixed bottom-0 left-0 z-40 w-screen ${defaultPadding} pb-12 md:pb-4 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop}`}
+        className={`fixed bottom-0 left-0 z-40 w-screen ${defaultPadding} pb-12 lg:pb-4 grid grid-cols-1 lg:grid-cols-3 justify-center items-center gap-2 ${defaultShadow} ${backdropBlur} ${borderTop}`}
         style={{
           transform: selectedRun ? "translateY(0)" : "translateY(240px)",
           transition: "300ms all ease-in-out",
         }}
       >
-        <DatePickerInput
-          size="lg"
-          value={date}
-          onChange={setDate}
-          valueFormat="DD MMMM YYYY"
-          defaultValue={new Date()}
-          rightSection={<IconCalendar size={20} />}
-          styles={{
-            input: inputStyles,
-          }}
-          readOnly
-        />
-        <div className="flex items-center gap-2 pr-2">
-          <SegmentedControl
-            size="lg"
-            value={effort}
-            onChange={setEffort}
-            data={[
-              { label: "Easy", value: "1" },
-              { label: "Moderate", value: "3" },
-              { label: "Hard", value: "5" },
-            ]}
-            withItemsBorders={false}
-            className="w-full"
-            styles={{
-              root: {
-                background: "rgba(0, 0, 0, 0.1)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                padding: "4.5px",
-              },
-              label: {
-                padding: "6px 6px",
-              },
-              indicator: {
-                background: "var(--mantine-color-orange-light)",
-                borderRadius: "2px",
-              },
-            }}
-            fullWidth
-          />
-          <ActionIcon
-            variant="transparent"
-            color="white"
-            onClick={() => setOpen(true)}
-          >
-            <IconInfoCircle size={20} />
-          </ActionIcon>
-        </div>
-        <div className="flex items-center gap-2 pr-2">
-          <Button
-            size="lg"
-            color="orange"
-            variant="light"
-            onClick={() => {
-              addRun({
-                date: dayjs(date).format("YYYY-MM-DD"),
-                effort: parseInt(effort, 10),
-              });
-              selectRun(null);
-            }}
-            leftSection={
-              runForSelectedDate ? (
-                <IconPencil size={20} />
-              ) : (
-                <IconCirclePlus size={20} />
-              )
-            }
-            fullWidth
-          >
-            {runForSelectedDate ? "Update" : "Add Run"}
-          </Button>
-          {runForSelectedDate && selectedRun && (
-            <Button
+        {confirm ? (
+          <>
+            <p className="p-2 text-center text-lg">Are you sure?</p>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                size="lg"
+                variant="light"
+                leftSection={<IconTrash size={20} />}
+                onClick={() => {
+                  removeRun(selectedRun!.date);
+                  setTimeout(() => setConfirm(false), 400);
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                size="lg"
+                variant="transparent"
+                color="blue"
+                leftSection={<IconX size={20} />}
+                onClick={() => setConfirm(false)}
+              >
+                No
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <DatePickerInput
               size="lg"
-              variant="transparent"
-              onClick={() => removeRun(selectedRun.date)}
-              leftSection={<IconTrash size={20} />}
-              fullWidth
-            >
-              Delete
-            </Button>
-          )}
-          <ActionIcon
-            variant="transparent"
-            color="white"
-            onClick={() => selectRun(null)}
-          >
-            <IconX size={20} />
-          </ActionIcon>
-        </div>
+              value={date}
+              onChange={setDate}
+              valueFormat="DD MMMM YYYY"
+              defaultValue={new Date()}
+              rightSection={<IconCalendar size={20} />}
+              styles={{
+                input: inputStyles,
+              }}
+              readOnly
+            />
+            <div className="flex items-center gap-2 pr-2">
+              <SegmentedControl
+                size="lg"
+                value={effort}
+                onChange={setEffort}
+                data={[
+                  { label: "Easy", value: "1" },
+                  { label: "Moderate", value: "3" },
+                  { label: "Hard", value: "5" },
+                ]}
+                withItemsBorders={false}
+                className="w-full"
+                styles={{
+                  root: {
+                    background: "rgba(0, 0, 0, 0.1)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    padding: "4.5px",
+                  },
+                  label: {
+                    padding: "6px 6px",
+                  },
+                  indicator: {
+                    background: "var(--mantine-color-orange-light)",
+                    borderRadius: "2px",
+                  },
+                }}
+                fullWidth
+              />
+              <ActionIcon
+                variant="transparent"
+                color="white"
+                onClick={() => setOpen(true)}
+              >
+                <IconInfoCircle size={20} />
+              </ActionIcon>
+            </div>
+            <div className="flex items-center gap-2 pr-2">
+              <Button
+                size="lg"
+                color="orange"
+                variant="light"
+                onClick={() => {
+                  addRun({
+                    date: dayjs(date).format("YYYY-MM-DD"),
+                    effort: parseInt(effort, 10),
+                  });
+                  selectRun(null);
+                }}
+                leftSection={
+                  runForSelectedDate ? (
+                    <IconPencil size={20} />
+                  ) : (
+                    <IconCirclePlus size={20} />
+                  )
+                }
+                fullWidth
+              >
+                {runForSelectedDate ? "Update" : "Add Run"}
+              </Button>
+              {runForSelectedDate && selectedRun && (
+                <Button
+                  size="lg"
+                  variant="transparent"
+                  onClick={() => setConfirm(true)}
+                  leftSection={<IconTrash size={20} />}
+                  fullWidth
+                >
+                  Delete
+                </Button>
+              )}
+              <ActionIcon
+                variant="transparent"
+                color="white"
+                onClick={() => selectRun(null)}
+              >
+                <IconX size={20} />
+              </ActionIcon>
+            </div>{" "}
+          </>
+        )}
       </div>
+
       <div
         className={`fixed bottom-0 z-50 flex flex-col gap-4 ${defaultPadding} pb-12 md:pb-4 ${defaultShadow} ${backdropBlur} ${borderTop}`}
         style={{
