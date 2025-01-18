@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useStreakContext } from "../context/StreakContext";
 
 export default function Day({
@@ -28,10 +30,19 @@ export default function Day({
       ? "rgba(255, 255, 255, 1)"
       : "rgba(255, 255, 255, 0.1)";
 
+  dayjs.extend(isSameOrBefore);
+  const isPastOrToday = dayjs(date).isSameOrBefore(dayjs(), "day");
+
   return (
     <div
-      className="aspect-square max-w-8 max-h-8 flex items-center justify-center cursor-pointer transition-all duration-300 hover:opacity-80"
-      onClick={() => selectRun(effort ? { date, effort } : { date, effort: 1 })}
+      className={`aspect-square max-w-8 max-h-8 flex items-center justify-center transition-all duration-300 hover:opacity-80 ${
+        isPastOrToday && "cursor-pointer"
+      }`}
+      onClick={() =>
+        isPastOrToday
+          ? selectRun(effort ? { date, effort } : { date, effort: 1 })
+          : undefined
+      }
     >
       <div
         className={`rounded-full ${

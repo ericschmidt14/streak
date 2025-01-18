@@ -29,7 +29,7 @@ export default function Year({ year }: { year: number }) {
           color="red.5"
           data={streakHistory}
           fillOpacity={0.6}
-          strokeWidth={1}
+          strokeWidth={2}
           w={9999}
           h={44}
         />

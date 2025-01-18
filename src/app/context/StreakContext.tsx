@@ -210,7 +210,16 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeRun = async (date: string) => {
-    const { error } = await supabase.from("Streak").delete().eq("date", date);
+    if (!user) {
+      console.error("Cannot add run: User is not authenticated.");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("Streak")
+      .delete()
+      .eq("date", date)
+      .eq("user_id", user.id);
 
     if (error) {
       console.error("Error removing run:", error.message);

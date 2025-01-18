@@ -85,7 +85,7 @@ export default function Overlay() {
               size="lg"
               value={date}
               onChange={setDate}
-              valueFormat="DD MMMM YYYY"
+              valueFormat="dddd, DD MMMM YYYY"
               defaultValue={new Date()}
               rightSection={<IconCalendar size={20} />}
               styles={{
