@@ -1,6 +1,7 @@
 import { AuthError, createClient, User } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { VIEW_STORAGE_KEY } from "../config";
 import { RunData, StreakResult, UserData } from "../lib/interfaces";
 import { getStreaks } from "../lib/utils";
 
@@ -72,6 +73,12 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     fetchRuns();
+    const storedView = localStorage.getItem(VIEW_STORAGE_KEY);
+    if (storedView !== null) {
+      console.log(storedView);
+      setCalendarView(storedView === "calendar");
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 

@@ -1,6 +1,7 @@
 import { Sparkline } from "@mantine/charts";
 import { SegmentedControl } from "@mantine/core";
 import { IconCalendarWeek, IconGridDots } from "@tabler/icons-react";
+import { VIEW_STORAGE_KEY } from "../config";
 import { useStreakContext } from "../context/StreakContext";
 import { segmentedControl } from "../lib/styles";
 import Month from "./Month";
@@ -38,7 +39,11 @@ export default function Year({ year }: { year: number }) {
               label: <IconCalendarWeek size={20} />,
             },
           ]}
-          onChange={(e) => setCalendarView(e === "calendar")}
+          defaultValue={calendarView ? "calendar" : "grid"}
+          onChange={(e) => {
+            setCalendarView(e === "calendar");
+            localStorage.setItem(VIEW_STORAGE_KEY, e);
+          }}
           styles={segmentedControl}
         />
       </header>
