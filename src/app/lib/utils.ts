@@ -31,6 +31,7 @@ export function getStreaks(data: RunData[]): StreakResult {
   let currentStreakDates: string[] = [];
   const streakHistory: number[] = [0];
 
+  const streakHistoryMaxLength = 20; // limit history to 10 entries (includes 10x 0 as padding)
   let tempStreak = 1;
   let tempStreakDates: string[] = [sortedDates[0].format("YYYY-MM-DD")];
 
@@ -42,7 +43,7 @@ export function getStreaks(data: RunData[]): StreakResult {
       tempStreak++;
       tempStreakDates.push(currentDate.format("YYYY-MM-DD"));
     } else {
-      streakHistory.push(tempStreak, 0);
+      streakHistory.push(tempStreak, 0); // add 0 as padding to make the graph go down between each streak
       if (tempStreak > longestStreak) {
         longestStreak = tempStreak;
         longestStreakDates = [...tempStreakDates];
@@ -87,6 +88,10 @@ export function getStreaks(data: RunData[]): StreakResult {
         currentStreakDates.push(today.format("YYYY-MM-DD"));
       }
     }
+  }
+
+  if (streakHistory.length > streakHistoryMaxLength) {
+    streakHistory.splice(0, streakHistory.length - streakHistoryMaxLength);
   }
 
   return {
