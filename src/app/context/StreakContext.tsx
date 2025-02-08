@@ -42,7 +42,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<AuthError | null>(null);
   const [loading, setLoading] = useState(true);
-  const [calendarView, setCalendarView] = useState(true);
+  const [calendarView, setCalendarView] = useState(false);
   const [runs, setRuns] = useState<RunData[]>([]);
   const [streaks, setStreaks] = useState<StreakResult>({
     longestStreak: 0,

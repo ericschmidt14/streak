@@ -30,12 +30,12 @@ export default function Year({ year }: { year: number }) {
         <SegmentedControl
           data={[
             {
-              value: "calendar",
-              label: <IconCalendarWeek size={20} />,
-            },
-            {
               value: "grid",
               label: <IconGridDots size={20} />,
+            },
+            {
+              value: "calendar",
+              label: <IconCalendarWeek size={20} />,
             },
           ]}
           onChange={(e) => setCalendarView(e === "calendar")}
