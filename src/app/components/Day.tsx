@@ -15,10 +15,10 @@ export default function Day({
   isInCurrentStreak?: boolean;
   isToday?: boolean;
 }) {
-  const { selectedRun, selectRun } = useStreakContext();
+  const { selectedRun, selectRun, calendarView } = useStreakContext();
 
   const isSelected = selectedRun?.date === date;
-  const size = `${(effort ? effort + 1 : 1) * 4}px`;
+  const size = `${(effort ? effort + 1 : 1) * (calendarView ? 2.4 : 4)}px`;
   const bg =
     isInCurrentStreak && isInLongestStreak
       ? "linear-gradient(75deg, var(--red) 0%, var(--blue) 100%)"

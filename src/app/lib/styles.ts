@@ -8,3 +8,17 @@ export const inputStyles = {
   background: "rgba(0,0,0,0.1)",
   border: "1px solid rgba(255, 255, 255, 0.1)",
 };
+export const segmentedControl = {
+  root: {
+    background: "rgba(0, 0, 0, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    padding: "4.5px",
+  },
+  label: {
+    padding: "6px 6px",
+  },
+  indicator: {
+    background: "var(--mantine-color-orange-light)",
+    borderRadius: "2px",
+  },
+};

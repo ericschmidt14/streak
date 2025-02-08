@@ -30,6 +30,8 @@ interface StreakContextValue extends StreakResult {
   user: User | null;
   error: AuthError | null;
   loading: boolean;
+  calendarView: boolean;
+  setCalendarView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StreakContext = createContext<StreakContextValue | undefined>(undefined);
@@ -40,6 +42,7 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<AuthError | null>(null);
   const [loading, setLoading] = useState(true);
+  const [calendarView, setCalendarView] = useState(true);
   const [runs, setRuns] = useState<RunData[]>([]);
   const [streaks, setStreaks] = useState<StreakResult>({
     longestStreak: 0,
@@ -254,6 +257,8 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
         user,
         error,
         loading,
+        calendarView,
+        setCalendarView,
       }}
     >
       {children}

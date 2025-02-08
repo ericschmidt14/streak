@@ -21,6 +21,7 @@ import {
   defaultPadding,
   defaultShadow,
   inputStyles,
+  segmentedControl,
 } from "../lib/styles";
 
 export default function Overlay() {
@@ -105,20 +106,7 @@ export default function Overlay() {
                 ]}
                 withItemsBorders={false}
                 className="w-full"
-                styles={{
-                  root: {
-                    background: "rgba(0, 0, 0, 0.1)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    padding: "4.5px",
-                  },
-                  label: {
-                    padding: "6px 6px",
-                  },
-                  indicator: {
-                    background: "var(--mantine-color-orange-light)",
-                    borderRadius: "2px",
-                  },
-                }}
+                styles={segmentedControl}
                 fullWidth
               />
               <ActionIcon
