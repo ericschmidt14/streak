@@ -14,7 +14,7 @@ export default function FAB() {
         size="xl"
         radius="xl"
         color="red.5"
-        className="fixed bottom-12 z-30 shadow-xl shadow-pink-500/20 cursor-pointer"
+        className="fixed bottom-12 lg:bottom-4 z-30 shadow-xl shadow-pink-500/20 cursor-pointer"
         onClick={() => selectRun({ date: today, effort: 1 })}
       >
         <IconPlus size={28} />
