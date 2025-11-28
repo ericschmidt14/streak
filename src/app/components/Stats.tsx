@@ -66,7 +66,7 @@ export default function Stats({
   return (
     <div className="flex flex-col gap-8 py-4">
       <div className="flex flex-col gap-2">
-        <h3 className="text-xl">Statistics</h3>
+        <h3 className="text-lg">Statistics</h3>
         <Table variant="vertical">
           <Table.Tbody>
             <Table.Tr>
@@ -132,7 +132,7 @@ export default function Stats({
         </div>
       </div>
       <div className="flex flex-col gap-2 flex-1">
-        <h3 className="text-xl">Monthly Effort</h3>
+        <h3 className="text-lg">Monthly Effort</h3>
         <CompositeChart
           h={240}
           data={stats.monthlyEffort}
