@@ -1,29 +1,22 @@
 import dayjs from "dayjs";
 import { RunData, StreakResult } from "./interfaces";
 
-export function hasRunToday(data: RunData[]): boolean {
-  if (data.length === 0) return false;
-
-  const today = dayjs().format("YYYY-MM-DD");
-  const lastRunDate = data[data.length - 1].date;
-
-  return lastRunDate === today;
-}
-
-export function getStreaks(data: RunData[]): StreakResult {
-  if (data.length === 0) {
+function calculateStreaksFromDates(sortedDates: dayjs.Dayjs[]): {
+  longestStreak: number;
+  longestStreakDates: string[];
+  currentStreak: number;
+  currentStreakDates: string[];
+  streakHistory: number[];
+} {
+  if (sortedDates.length === 0) {
     return {
       longestStreak: 0,
-      currentStreak: 0,
       longestStreakDates: [],
+      currentStreak: 0,
       currentStreakDates: [],
       streakHistory: [],
     };
   }
-
-  const sortedDates = data
-    .map((entry) => dayjs(entry.date))
-    .sort((a, b) => a.diff(b));
 
   let longestStreak = 0;
   let currentStreak = 0;
@@ -31,7 +24,7 @@ export function getStreaks(data: RunData[]): StreakResult {
   let currentStreakDates: string[] = [];
   const streakHistory: number[] = [0];
 
-  const streakHistoryMaxLength = 20; // limit history to 10 entries (includes 10x 0 as padding)
+  const streakHistoryMaxLength = 20;
   let tempStreak = 1;
   let tempStreakDates: string[] = [sortedDates[0].format("YYYY-MM-DD")];
 
@@ -43,7 +36,7 @@ export function getStreaks(data: RunData[]): StreakResult {
       tempStreak++;
       tempStreakDates.push(currentDate.format("YYYY-MM-DD"));
     } else {
-      streakHistory.push(tempStreak, 0); // add 0 as padding to make the graph go down between each streak
+      streakHistory.push(tempStreak, 0);
       if (tempStreak > longestStreak) {
         longestStreak = tempStreak;
         longestStreakDates = [...tempStreakDates];
@@ -96,11 +89,62 @@ export function getStreaks(data: RunData[]): StreakResult {
 
   return {
     longestStreak,
-    currentStreak,
     longestStreakDates,
+    currentStreak,
     currentStreakDates,
     streakHistory,
   };
+}
+
+export function hasRunToday(data: RunData[]): boolean {
+  if (data.length === 0) return false;
+
+  const today = dayjs().format("YYYY-MM-DD");
+  const lastRunDate = data[data.length - 1].date;
+
+  return lastRunDate === today;
+}
+
+export function getStreaks(data: RunData[]): StreakResult {
+  if (data.length === 0) {
+    return {
+      longestStreak: 0,
+      currentStreak: 0,
+      longestStreakDates: [],
+      currentStreakDates: [],
+      streakHistory: [],
+    };
+  }
+
+  const sortedDates = data
+    .map((entry) => dayjs(entry.date))
+    .sort((a, b) => a.diff(b));
+
+  const streakData = calculateStreaksFromDates(sortedDates);
+
+  return {
+    longestStreak: streakData.longestStreak,
+    currentStreak: streakData.currentStreak,
+    longestStreakDates: streakData.longestStreakDates,
+    currentStreakDates: streakData.currentStreakDates,
+    streakHistory: streakData.streakHistory,
+  };
+}
+
+export function calculateYearLongestStreak(
+  runs: RunData[],
+  year: number
+): number {
+  const yearRuns = runs.filter((run) => dayjs(run.date).year() === year);
+
+  if (yearRuns.length === 0) return 0;
+
+  const sortedDates = yearRuns
+    .map((entry) => dayjs(entry.date))
+    .sort((a, b) => a.diff(b));
+
+  const streakData = calculateStreaksFromDates(sortedDates);
+  return streakData.longestStreak;
 }
 
 export function isLeapYear(year: number): boolean {

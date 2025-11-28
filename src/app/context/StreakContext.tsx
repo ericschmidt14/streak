@@ -33,6 +33,10 @@ interface StreakContextValue extends StreakResult {
   loading: boolean;
   calendarView: boolean;
   setCalendarView: React.Dispatch<React.SetStateAction<boolean>>;
+  currentYear: number;
+  setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
+  minYear: number;
+  maxYear: number;
 }
 
 const StreakContext = createContext<StreakContextValue | undefined>(undefined);
@@ -53,6 +57,11 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
     streakHistory: [],
   });
   const [selectedRun, setSelectedRun] = useState<RunData | null>(null);
+  const [currentYear, setCurrentYear] = useState<number>(
+    new Date().getFullYear()
+  );
+  const [minYear, setMinYear] = useState<number>(new Date().getFullYear());
+  const [maxYear, setMaxYear] = useState<number>(new Date().getFullYear());
 
   useEffect(() => {
     fetchUser();
@@ -84,6 +93,15 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     setStreaks(getStreaks(runs));
+
+    const today = new Date().getFullYear();
+    if (runs.length > 0) {
+      const firstRunYear = dayjs(runs[0].date).year();
+      setMinYear(firstRunYear);
+    } else {
+      setMinYear(today);
+    }
+    setMaxYear(today);
   }, [runs]);
 
   const signUp = async (
@@ -266,6 +284,10 @@ export const StreakProvider: React.FC<{ children: React.ReactNode }> = ({
         loading,
         calendarView,
         setCalendarView,
+        currentYear,
+        setCurrentYear,
+        minYear,
+        maxYear,
       }}
     >
       {children}

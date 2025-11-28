@@ -1,16 +1,24 @@
+import { useStreakContext } from "../context/StreakContext";
 import { defaultPadding } from "../lib/styles";
 import Year from "./Year";
 
 export default function StreakView() {
-  const years = [2025];
+  const { currentYear, setCurrentYear, minYear, maxYear } = useStreakContext();
+
+  const handleYearChange = (year: number) => {
+    setCurrentYear(year);
+  };
 
   return (
     <main
       className={`w-full flex flex-col gap-8 ${defaultPadding} pb-64 md:pb-24`}
     >
-      {years.reverse().map((y) => (
-        <Year key={y} year={y} />
-      ))}
+      <Year
+        year={currentYear}
+        minYear={minYear}
+        maxYear={maxYear}
+        onYearChange={handleYearChange}
+      />
     </main>
   );
 }
