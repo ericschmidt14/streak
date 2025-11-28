@@ -27,7 +27,7 @@ function calculateYearStats(runs: RunData[], year: number): YearStats {
   const hardRuns = yearRuns.filter((run) => run.effort >= 5).length;
 
   const monthlyEffort = Array.from({ length: 12 }).map((_, monthIndex) => {
-    const monthName = dayjs().month(monthIndex).format("MM");
+    const monthName = dayjs().month(monthIndex).format("MMMM");
     const monthRuns = yearRuns.filter(
       (run) => dayjs(run.date).month() === monthIndex
     );
@@ -141,7 +141,7 @@ export default function Stats({
             {
               type: "bar",
               name: "effort",
-              label: "Effort",
+              label: "Combined Effort",
               color: "blue.5",
             },
             {
@@ -155,8 +155,10 @@ export default function Stats({
           withDots={false}
           strokeWidth={2}
           withYAxis={false}
+          xAxisProps={{
+            tickFormatter: (value) => value.substring(0, 1),
+          }}
           gridAxis="none"
-          withTooltip={false}
         />
       </div>
     </div>
