@@ -19,6 +19,10 @@ body {
   background-color: transparent;
 }
 
+.mantine-Table-tr {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
 .mantine-Table-th {
   padding-left: 0;
   font-size: 0.75rem;

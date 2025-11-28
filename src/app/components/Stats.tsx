@@ -138,6 +138,8 @@ export default function Stats({
           dataKey="month"
           series={[{ name: "effort", label: "Effort", color: "blue.5" }]}
           withYAxis={false}
+          gridAxis="none"
+          withTooltip={false}
         />
       </div>
     </div>

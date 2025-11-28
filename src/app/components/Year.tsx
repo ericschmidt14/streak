@@ -1,11 +1,11 @@
 import { Sparkline } from "@mantine/charts";
 import { ActionIcon, SegmentedControl } from "@mantine/core";
 import {
-  IconCalendarWeek,
   IconChartLine,
   IconChevronLeft,
   IconChevronRight,
-  IconGridDots,
+  IconGripVertical,
+  IconLayoutGrid,
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { VIEW_STORAGE_KEY } from "../config";
@@ -98,11 +98,11 @@ export default function Year({
           data={[
             {
               value: "grid",
-              label: <IconGridDots size={20} />,
+              label: <IconGripVertical size={20} />,
             },
             {
               value: "calendar",
-              label: <IconCalendarWeek size={20} />,
+              label: <IconLayoutGrid size={20} />,
             },
             {
               value: "stats",
