@@ -1,4 +1,4 @@
-import { BarChart, PieChart } from "@mantine/charts";
+import { CompositeChart, PieChart } from "@mantine/charts";
 import { Table } from "@mantine/core";
 import dayjs from "dayjs";
 import pluralize from "pluralize";
@@ -13,7 +13,7 @@ interface YearStats {
   daysWithoutRuns: number;
   daysInYear: number;
   longestStreakOfYear: number;
-  monthlyEffort: Array<{ month: string; effort: number }>;
+  monthlyEffort: Array<{ month: string; effort: number; runs: number }>;
 }
 
 function calculateYearStats(runs: RunData[], year: number): YearStats {
@@ -32,7 +32,8 @@ function calculateYearStats(runs: RunData[], year: number): YearStats {
       (run) => dayjs(run.date).month() === monthIndex
     );
     const effort = monthRuns.reduce((sum, run) => sum + run.effort, 0);
-    return { month: monthName, effort };
+    const runsCount = monthRuns.length;
+    return { month: monthName, effort, runs: runsCount };
   });
 
   const longestStreakOfYear = calculateYearLongestStreak(runs, year);
@@ -132,11 +133,27 @@ export default function Stats({
       </div>
       <div className="flex flex-col gap-2 flex-1">
         <h3 className="text-xl">Monthly Effort</h3>
-        <BarChart
+        <CompositeChart
           h={240}
           data={stats.monthlyEffort}
           dataKey="month"
-          series={[{ name: "effort", label: "Effort", color: "blue.5" }]}
+          series={[
+            {
+              type: "bar",
+              name: "effort",
+              label: "Effort",
+              color: "blue.5",
+            },
+            {
+              type: "line",
+              name: "runs",
+              label: "Runs",
+              color: "red.5",
+            },
+          ]}
+          curveType="monotone"
+          withDots={false}
+          strokeWidth={2}
           withYAxis={false}
           gridAxis="none"
           withTooltip={false}
