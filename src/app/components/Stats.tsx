@@ -91,8 +91,8 @@ export default function Stats({
               <Table.Th>Total Runs</Table.Th>
               <Table.Td>
                 <p>
-                  {stats.totalRuns} out of {stats.daysInYear} days (
-                  {runPercentage}%)
+                  {stats.totalRuns} out of {stats.daysInYear} days{" "}
+                  <span className="text-white/50">– {runPercentage}%</span>
                 </p>
               </Table.Td>
             </Table.Tr>
@@ -167,14 +167,14 @@ export default function Stats({
               color: "red.5",
             },
           ]}
-          curveType="monotone"
-          withDots={false}
+          curveType="linear"
           strokeWidth={2}
+          withDots={false}
+          withTooltip={false}
           withYAxis={false}
           xAxisProps={{
             tickFormatter: (value) => value.substring(0, 1),
           }}
-          withTooltip={false}
           gridAxis="none"
         />
       </div>

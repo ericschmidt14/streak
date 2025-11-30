@@ -61,11 +61,11 @@ export default function Year({
   return (
     <div className="flex flex-col gap-4">
       <Sparkline
-        curveType="monotone"
+        curveType="linear"
         color="red.5"
         data={streakHistory}
-        fillOpacity={0.6}
         strokeWidth={2}
+        fillOpacity={0}
         h={44}
       />
       <header className="flex justify-between items-end gap-4">
