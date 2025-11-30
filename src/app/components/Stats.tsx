@@ -1,4 +1,4 @@
-import { CompositeChart, PieChart } from "@mantine/charts";
+import { BarChart, CompositeChart } from "@mantine/charts";
 import { Table } from "@mantine/core";
 import dayjs from "dayjs";
 import pluralize from "pluralize";
@@ -14,6 +14,13 @@ interface YearStats {
   daysInYear: number;
   longestStreakOfYear: number;
   monthlyEffort: Array<{ month: string; effort: number; runs: number }>;
+  runDistribution: Array<{
+    name: string;
+    Easy: number;
+    Moderate: number;
+    Hard: number;
+    "No Runs": number;
+  }>;
 }
 
 function calculateYearStats(runs: RunData[], year: number): YearStats {
@@ -40,6 +47,16 @@ function calculateYearStats(runs: RunData[], year: number): YearStats {
 
   const daysWithoutRuns = daysInYear - totalRuns;
 
+  const runDistribution = [
+    {
+      name: "Distribution",
+      Easy: easyRuns,
+      Moderate: moderateRuns,
+      Hard: hardRuns,
+      "No Runs": daysWithoutRuns,
+    },
+  ];
+
   return {
     totalRuns,
     easyRuns,
@@ -49,6 +66,7 @@ function calculateYearStats(runs: RunData[], year: number): YearStats {
     daysInYear,
     longestStreakOfYear,
     monthlyEffort,
+    runDistribution,
   };
 }
 
@@ -64,8 +82,8 @@ export default function Stats({
   const runPercentage = Math.round((stats.totalRuns / stats.daysInYear) * 100);
 
   return (
-    <div className="flex flex-col gap-8 py-4">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-16 py-4">
+      <div className="flex flex-col">
         <h3 className="text-lg">Statistics</h3>
         <Table variant="vertical">
           <Table.Tbody>
@@ -111,27 +129,25 @@ export default function Stats({
             </Table.Tr>
           </Table.Tbody>
         </Table>
-        <div className="flex justify-center">
-          <PieChart
-            h={180}
-            data={[
-              { name: "Easy", value: stats.easyRuns, color: "blue.5" },
-              {
-                name: "Moderate",
-                value: stats.moderateRuns,
-                color: "orange.5",
-              },
-              { name: "Hard", value: stats.hardRuns, color: "red.5" },
-              {
-                name: "No Runs",
-                value: stats.daysWithoutRuns,
-                color: "transparent",
-              },
-            ]}
-          />
-        </div>
+        <BarChart
+          h={72}
+          data={stats.runDistribution}
+          type="percent"
+          dataKey="name"
+          series={[
+            { name: "Easy", label: "Easy", color: "blue.5" },
+            { name: "Moderate", label: "Moderate", color: "orange.5" },
+            { name: "Hard", label: "Hard", color: "red.5" },
+            { name: "No Runs", label: "No Runs", color: "dark.7" },
+          ]}
+          orientation="vertical"
+          gridAxis="none"
+          withTooltip={false}
+          withYAxis={false}
+          withXAxis={false}
+        />
       </div>
-      <div className="flex flex-col gap-2 flex-1">
+      <div className="flex flex-col flex-1">
         <h3 className="text-lg">Monthly Effort</h3>
         <CompositeChart
           h={240}
@@ -158,6 +174,7 @@ export default function Stats({
           xAxisProps={{
             tickFormatter: (value) => value.substring(0, 1),
           }}
+          withTooltip={false}
           gridAxis="none"
         />
       </div>
