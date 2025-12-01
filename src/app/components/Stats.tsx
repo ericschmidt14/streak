@@ -1,9 +1,9 @@
-import { BarChart, CompositeChart } from "@mantine/charts";
-import { Table } from "@mantine/core";
+import { BarChart } from "@mantine/charts";
 import dayjs from "dayjs";
 import pluralize from "pluralize";
 import { RunData } from "../lib/interfaces";
 import { calculateYearLongestStreak, isLeapYear } from "../lib/utils";
+import Info from "./Info";
 
 interface YearStats {
   totalRuns: number;
@@ -85,52 +85,44 @@ export default function Stats({
     <div className="flex flex-col gap-16 py-4">
       <div className="flex flex-col">
         <h3 className="text-lg">Statistics</h3>
-        <Table variant="vertical">
-          <Table.Tbody>
-            <Table.Tr>
-              <Table.Th>Total Runs</Table.Th>
-              <Table.Td>
-                <p>
-                  {stats.totalRuns} out of {stats.daysInYear} days{" "}
-                  <span className="text-white/50">– {runPercentage}%</span>
-                </p>
-              </Table.Td>
-            </Table.Tr>
-            <Table.Tr>
-              <Table.Th>Longest Streak</Table.Th>
-              <Table.Td>
-                {stats.longestStreakOfYear}{" "}
-                {pluralize("day", stats.longestStreakOfYear)}
-              </Table.Td>
-            </Table.Tr>
-            <Table.Tr>
-              <Table.Th>Easy Runs</Table.Th>
-              <Table.Td>
-                <p style={{ color: "var(--mantine-color-blue-5)" }}>
-                  {stats.easyRuns}
-                </p>
-              </Table.Td>
-            </Table.Tr>
-            <Table.Tr>
-              <Table.Th>Moderate Runs</Table.Th>
-              <Table.Td>
-                <p style={{ color: "var(--mantine-color-orange-5)" }}>
-                  {stats.moderateRuns}
-                </p>
-              </Table.Td>
-            </Table.Tr>
-            <Table.Tr>
-              <Table.Th>Hard Runs</Table.Th>
-              <Table.Td>
-                <p style={{ color: "var(--mantine-color-red-5)" }}>
-                  {stats.hardRuns}
-                </p>
-              </Table.Td>
-            </Table.Tr>
-          </Table.Tbody>
-        </Table>
+        <div className="grid grid-cols-2 gap-2 pb-4">
+          <div className="flex flex-col gap-2">
+            <Info
+              label="Easy Runs"
+              value={String(stats.easyRuns)}
+              color={"mantine-color-blue-5"}
+            />
+            <Info
+              label="Moderate Runs"
+              value={String(stats.moderateRuns)}
+              color={"mantine-color-orange-5"}
+            />
+            <Info
+              label="Hard Runs"
+              value={String(stats.hardRuns)}
+              color={"mantine-color-red-5"}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Info
+              label="Total Runs"
+              value={`${stats.totalRuns} / ${stats.daysInYear} (${runPercentage}%)`}
+              color="white"
+              alignRight
+            />
+            <Info
+              label="Longest Streak"
+              value={`${stats.longestStreakOfYear} ${pluralize(
+                "day",
+                stats.longestStreakOfYear
+              )}`}
+              color="white"
+              alignRight
+            />
+          </div>
+        </div>
         <BarChart
-          h={72}
+          h={4}
           data={stats.runDistribution}
           type="percent"
           dataKey="name"
@@ -149,33 +141,21 @@ export default function Stats({
       </div>
       <div className="flex flex-col flex-1">
         <h3 className="text-lg">Monthly Effort</h3>
-        <CompositeChart
+        <BarChart
           h={240}
           data={stats.monthlyEffort}
           dataKey="month"
           series={[
-            {
-              type: "bar",
-              name: "effort",
-              label: "Combined Effort",
-              color: "blue.5",
-            },
-            {
-              type: "line",
-              name: "runs",
-              label: "Runs",
-              color: "red.5",
-            },
+            { name: "effort", label: "Combined Effort", color: "blue.5" },
           ]}
-          curveType="linear"
-          strokeWidth={2}
-          withDots={false}
-          withTooltip={false}
+          maxBarWidth={4}
           withYAxis={false}
-          xAxisProps={{
-            tickFormatter: (value) => value.substring(0, 1),
-          }}
+          withTooltip={false}
           gridAxis="none"
+          xAxisProps={{
+            tickFormatter: (value: string) =>
+              value ? value.substring(0, 1) : value,
+          }}
         />
       </div>
     </div>
