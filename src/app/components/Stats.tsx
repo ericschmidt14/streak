@@ -83,9 +83,9 @@ export default function Stats({
 
   return (
     <div className="flex flex-col gap-16 py-4">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <h3 className="text-lg">Statistics</h3>
-        <div className="grid grid-cols-2 gap-2 pb-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <Info
               label="Easy Runs"
