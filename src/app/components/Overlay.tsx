@@ -27,7 +27,7 @@ import {
 export default function Overlay() {
   const { runs, selectedRun, selectRun, addRun, removeRun } =
     useStreakContext();
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [date, setDate] = useState<string | Date | null>(new Date());
   const [effort, setEffort] = useState<string>("1");
   const [open, setOpen] = useState<boolean>(false);
   const [confirm, setConfirm] = useState<boolean>(false);
