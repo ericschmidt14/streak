@@ -36,7 +36,7 @@ export default function Month({
 
   const daysData = Array.from({ length: days[index] }).map((_, dayIndex) => {
     const date = `${year}-${String(index + 1).padStart(2, "0")}-${String(
-      dayIndex + 1
+      dayIndex + 1,
     ).padStart(2, "0")}`;
 
     const isInLongestStreak = longestStreakDates.includes(date);
@@ -66,17 +66,19 @@ export default function Month({
   const firstDayOfMonth = new Date(
     `${year}-${String(index + 1).padStart(2, "0")}-${String(1).padStart(
       2,
-      "0"
-    )}`
+      "0",
+    )}`,
   ).getDay();
 
   return calendarView ? (
     <div>
       <h3 className="text-sm text-white/50 py-2">{name}</h3>
       <div className="grid grid-cols-7">
-        {Array.from({ length: firstDayOfMonth - 1 }).map((_, dayIndex) => (
-          <div key={dayIndex} />
-        ))}
+        {Array.from({ length: (firstDayOfMonth + 6) % 7 }).map(
+          (_, dayIndex) => (
+            <div key={dayIndex} />
+          ),
+        )}
         {daysData}
       </div>
     </div>
